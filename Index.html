@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+<title>کافه گالری ایران</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --accent:#cda15b; --accent-bright:#e8bd7a; --accent-deep:#8a6a2f;
+    --bg-0:#0c0a08; --bg-1:#151009; --bg-2:#1c150d; --card:#1a140d; --border:#2e2416;
+    --text:#f3ecdf; --muted:#a89880; --danger:#c86a6a; --ok:#6ac87e;
+    --fs:16px;
+  }
+  body.light{
+    --bg-0:#f6f2e9; --bg-1:#ffffff; --bg-2:#f1ead9; --card:#ffffff; --border:#e4d8bd;
+    --text:#2a2117; --muted:#8a7c62;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:var(--fs);}
+  body{margin:0;background:var(--bg-0);color:var(--text);font-family:'Vazirmatn',sans-serif;min-height:100vh;transition:background .2s,color .2s;}
+  button,input,select,textarea{font-family:inherit;}
+  input,select,textarea{background:var(--bg-2);border:1px solid var(--border);color:var(--text);border-radius:.6rem;padding:.6rem .75rem;font-size:.85rem;width:100%;outline:none;}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+  label{font-size:.75rem;color:var(--muted);display:block;margin-bottom:.35rem;}
+  .field{margin-bottom:.9rem;}
+  button{cursor:pointer;border:none;}
+  .hidden{display:none !important;}
+  .screen{min-height:100vh;padding-bottom:2rem;}
+
+  /* ---- shared bits ---- */
+  .app-header{
+    display:flex;align-items:center;gap:.6rem;padding:1rem 1.1rem;position:sticky;top:0;z-index:30;
+    background:linear-gradient(180deg, var(--bg-1) 85%, transparent);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .back-btn{
+    width:2.1rem;height:2.1rem;border-radius:50%;background:var(--bg-2);border:1px solid var(--border);
+    color:var(--text);font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .app-header h1{font-size:.95rem;margin:0;color:var(--accent-bright);font-weight:700;flex:1;}
+  .gold-btn{
+    background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;
+    font-weight:700;border-radius:.7rem;padding:.7rem 1rem;font-size:.8rem;
+  }
+  .ghost-btn{background:var(--bg-2);border:1px solid var(--border);color:var(--text);border-radius:.7rem;padding:.7rem 1rem;font-size:.8rem;}
+  .toast{
+    position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);background:var(--accent-bright);color:#1a1206;
+    padding:.65rem 1.2rem;border-radius:999px;font-size:.8rem;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.3);
+    opacity:0;pointer-events:none;transition:.25s;z-index:200;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+  .soon{padding:3rem 1.5rem;text-align:center;color:var(--muted);}
+  .soon .big{font-size:2.4rem;margin-bottom:.8rem;}
+  .soon h2{color:var(--accent-bright);font-size:1rem;margin:0 0 .4rem;}
+  .soon p{font-size:.8rem;line-height:1.8;max-width:320px;margin:0 auto;}
+
+  /* ---- LOGIN ---- */
+  #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.2rem;}
+  .login-card{background:var(--bg-1);border:1px solid var(--border);border-radius:1.3rem;padding:2.2rem 1.7rem;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.35);}
+  .login-card .cup{font-size:2.4rem;margin-bottom:.6rem;}
+  .login-card h1{font-size:1.05rem;margin:0 0 .2rem;color:var(--accent-bright);}
+  .login-card p{font-size:.75rem;color:var(--muted);margin:0 0 1.3rem;}
+  .role-pick{display:flex;gap:.5rem;margin-bottom:1rem;}
+  .role-pick button{flex:1;padding:.6rem;border-radius:.7rem;background:var(--bg-2);border:1px solid var(--border);color:var(--muted);font-size:.75rem;font-weight:600;}
+  .role-pick button.active{background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;border-color:transparent;}
+  .err{color:var(--danger);font-size:.75rem;margin-top:.6rem;min-height:1rem;}
+
+  /* ---- DASHBOARD ---- */
+  #dashScreen .top{padding:1.4rem 1.2rem .6rem;text-align:center;}
+  #dashScreen .top .cup{font-size:2rem;}
+  #dashScreen .top h1{font-size:1.2rem;margin:.4rem 0 .1rem;color:var(--accent-bright);}
+  #dashScreen .top span{font-size:.75rem;color:var(--muted);}
+  .grid-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;padding:1.2rem;max-width:520px;margin:0 auto;}
+  .tile{
+    background:var(--card);border:1px solid var(--border);border-radius:1.1rem;padding:1.3rem .8rem;
+    display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;
+  }
+  .tile .ic{font-size:1.7rem;}
+  .tile b{font-size:.8rem;}
+  .tile span{font-size:.65rem;color:var(--muted);}
+  .logout-row{text-align:center;padding:1rem;}
+
+  /* ---- SETTINGS ---- */
+  .s-section{padding:1.1rem;max-width:520px;margin:0 auto;}
+  .s-block{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1rem 1.1rem;margin-bottom:1rem;}
+  .s-block h3{margin:0 0 .8rem;font-size:.85rem;color:var(--accent-bright);}
+  .swatches{display:flex;gap:.6rem;margin-bottom:.6rem;}
+  .swatch{width:2.1rem;height:2.1rem;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+  .swatch.active{border-color:var(--text);}
+  .mode-row,.font-row{display:flex;gap:.6rem;}
+  .mode-row button,.font-row button{flex:1;padding:.6rem;border-radius:.6rem;background:var(--bg-2);border:1px solid var(--border);color:var(--muted);font-size:.75rem;}
+  .mode-row button.active,.font-row button.active{background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;border-color:transparent;}
+  .logo-upload{border:1.5px dashed var(--border);border-radius:.8rem;padding:1rem;text-align:center;position:relative;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.5rem;}
+  .logo-upload img{max-height:4.5rem;border-radius:.5rem;}
+  .logo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+
+  /* ---- MENU MODULE ---- */
+  .tabs{display:flex;gap:.5rem;padding:.9rem 1.1rem;overflow-x:auto;border-bottom:1px solid var(--border);}
+  .tab{flex-shrink:0;padding:.55rem 1rem;border-radius:999px;background:var(--bg-2);border:1px solid var(--border);color:var(--muted);font-size:.78rem;font-weight:600;white-space:nowrap;}
+  .tab.active{background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;border-color:transparent;}
+  .m-panel{padding:1.1rem;max-width:560px;margin:0 auto;}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;}
+  .panel-head h2{font-size:.9rem;margin:0;color:var(--accent-bright);}
+  .list{display:flex;flex-direction:column;gap:.6rem;}
+  .row{display:flex;align-items:center;gap:.7rem;background:var(--card);border:1px solid var(--border);border-radius:.9rem;padding:.7rem .8rem;}
+  .row.unavailable{opacity:.5;}
+  .row .thumb{width:2.6rem;height:2.6rem;border-radius:.6rem;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;overflow:hidden;}
+  .row .thumb img{width:100%;height:100%;object-fit:cover;}
+  .row .info{flex:1;min-width:0;}
+  .row .info b{display:block;font-size:.8rem;}
+  .row .info span{display:block;font-size:.68rem;color:var(--muted);margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .row .price{color:var(--accent-bright);font-size:.75rem;font-weight:700;white-space:nowrap;}
+  .row .actions{display:flex;gap:.35rem;}
+  .icon-btn{width:1.9rem;height:1.9rem;border-radius:.5rem;background:var(--bg-2);border:1px solid var(--border);color:var(--text);font-size:.8rem;display:flex;align-items:center;justify-content:center;}
+  .icon-btn.del{color:var(--danger);}
+  .empty{text-align:center;padding:2.2rem 1rem;color:var(--muted);font-size:.78rem;}
+
+  /* ---- Modal ---- */
+  .overlay{position:fixed;inset:0;background:rgba(6,5,3,.72);display:none;align-items:flex-start;justify-content:center;z-index:80;padding:1.2rem;overflow-y:auto;}
+  .overlay.open{display:flex;}
+  .modal{background:var(--bg-1);border:1px solid var(--border);border-radius:1.1rem;padding:1.4rem;max-width:400px;width:100%;margin-top:1.8rem;}
+  .modal h3{margin:0 0 1rem;font-size:.9rem;color:var(--accent-bright);}
+  .modal .close{float:left;background:var(--bg-2);border:1px solid var(--border);width:1.8rem;height:1.8rem;border-radius:50%;color:var(--muted);}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+  .photo-upload{border:1.5px dashed var(--border);border-radius:.8rem;padding:1rem;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.5rem;position:relative;overflow:hidden;}
+  .photo-upload img{max-height:5.5rem;border-radius:.5rem;}
+  .photo-upload input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  .avail-toggle{display:flex;align-items:center;justify-content:space-between;background:var(--bg-2);border:1px solid var(--border);border-radius:.7rem;padding:.7rem .9rem;margin-bottom:.9rem;}
+  .switch{width:2.6rem;height:1.5rem;border-radius:999px;background:var(--border);position:relative;flex-shrink:0;}
+  .switch.on{background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));}
+  .switch::after{content:"";position:absolute;top:.15rem;right:.15rem;width:1.2rem;height:1.2rem;border-radius:50%;background:#fff;transition:.2s;}
+  .switch.on::after{right:1.15rem;}
+  .save-row{display:flex;gap:.6rem;margin-top:.4rem;}
+  .save-row button{flex:1;padding:.75rem;border-radius:.7rem;font-weight:700;font-size:.8rem;}
+  .save-row .cancel{background:var(--bg-2);color:var(--muted);border:1px solid var(--border);}
+  .save-row .save{background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;}
+
+  /* ---- Customer preview ---- */
+  .c-hero{text-align:center;padding:2.2rem 1.2rem 1.3rem;}
+  .c-hero .cup-mark{width:2.4rem;height:2.4rem;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--accent-bright),var(--accent-deep) 75%);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin:0 auto .6rem;}
+  .c-hero h1{font-size:1.6rem;font-weight:800;margin:0 0 .4rem;color:var(--accent-bright);}
+  .c-hero .tag{color:var(--accent);font-size:.8rem;}
+  .c-search{padding:.4rem 1.2rem 1rem;max-width:420px;margin:0 auto;}
+  .c-search input{border-radius:999px;padding:.7rem 1rem;}
+  .c-cats{display:flex;gap:.5rem;padding:.1rem 1.2rem 1.2rem;overflow-x:auto;}
+  .c-cats .cat-pill{flex-shrink:0;padding:.55rem 1rem;border-radius:999px;background:var(--bg-2);border:1px solid var(--border);color:var(--muted);font-size:.75rem;font-weight:600;white-space:nowrap;}
+  .c-cats .cat-pill.active{background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;border-color:transparent;}
+  .c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:.8rem;padding:0 1.2rem;max-width:640px;margin:0 auto;}
+  .c-card{background:var(--card);border:1px solid var(--border);border-radius:1rem;overflow:hidden;}
+  .c-media{height:6.2rem;display:flex;align-items:center;justify-content:center;font-size:2.1rem;background:radial-gradient(circle at 30% 20%, rgba(205,161,91,.15), transparent 60%), var(--bg-2);position:relative;}
+  .c-media img{width:100%;height:100%;object-fit:cover;}
+  .c-badge{position:absolute;top:.4rem;left:.4rem;background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;}
+  .c-body{padding:.7rem .8rem;}
+  .c-body h3{margin:0 0 .3rem;font-size:.82rem;}
+  .c-body p{margin:0 0 .5rem;font-size:.65rem;color:var(--muted);line-height:1.6;min-height:1.6rem;}
+  .c-price{color:var(--accent-bright);font-weight:700;font-size:.78rem;}
+  .qr-fab{position:fixed;bottom:1.3rem;left:1.2rem;z-index:60;display:flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--accent-bright),var(--accent-deep));color:#1a1206;border-radius:999px;padding:.75rem 1rem;font-weight:700;font-size:.75rem;box-shadow:0 10px 24px rgba(0,0,0,.3);}
+  #qrcode{display:inline-flex;padding:.8rem;background:#fff;border-radius:.9rem;margin-bottom:.8rem;}
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="cup">☕</div>
+    <h1>کافه گالری ایران</h1>
+    <p>برای ورود، نقش و رمز عبور رو وارد کن</p>
+    <div class="role-pick">
+      <button id="roleOwnerBtn" class="active" onclick="pickRole('owner')">مدیر</button>
+      <button id="roleStaffBtn" onclick="pickRole('staff')">کارمند</button>
+    </div>
+    <div class="field"><input id="pwInput" type="password" placeholder="رمز عبور" onkeydown="if(event.key==='Enter')login()"></div>
+    <button class="gold-btn" style="width:100%;" onclick="login()">ورود</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="dashScreen" class="screen hidden">
+  <div id="backupBanner" class="hidden" style="margin:1rem 1.2rem 0;background:var(--card);border:1px solid var(--accent-deep);border-radius:.9rem;padding:.8rem 1rem;display:flex;align-items:center;gap:.6rem;">
+    <span style="font-size:1.1rem;">⚠️</span>
+    <span style="flex:1;font-size:.72rem;color:var(--muted);">امروز بک‌آپ نگرفتی. بهتره یه فایل بک‌آپ تازه بگیری.</span>
+    <button class="ghost-btn" style="padding:.5rem .8rem;font-size:.7rem;" onclick="downloadBackup()">دانلود</button>
+  </div>
+  <div class="top">
+    <div class="cup">☕</div>
+    <h1 id="dashCafeName">کافه گالری ایران</h1>
+    <span id="dashRoleTag">وارد شده به‌عنوان مدیر</span>
+  </div>
+  <div class="grid-menu">
+    <div class="tile" onclick="openModule('menu')"><div class="ic">🍽️</div><b>منو و QR</b><span>مدیریت و مشاهده منو</span></div>
+    <div class="tile" onclick="openModule('recipes')"><div class="ic">📖</div><b>رسپی‌ها</b><span>دستور پخت غذاها</span></div>
+    <div class="tile" onclick="openModule('sales')"><div class="ic">💰</div><b>فروش</b><span>مشتری، فاکتور، مانده</span></div>
+    <div class="tile" onclick="openModule('inventory')"><div class="ic">📦</div><b>انبار</b><span>موجودی و ورود کالا</span></div>
+    <div class="tile" onclick="openModule('orders')"><div class="ic">🧾</div><b>سفارش‌گیری</b><span>رسید و عکس غذا</span></div>
+    <div class="tile" onclick="openModule('accounting')"><div class="ic">📊</div><b>حسابداری</b><span>صندوق، هزینه، گزارش</span></div>
+    <div class="tile" onclick="openModule('calc')"><div class="ic">🧮</div><b>ماشین‌حساب</b><span>محاسبه سریع</span></div>
+    <div class="tile" onclick="openModule('games')"><div class="ic">🎮</div><b>بازی</b><span>حدس عدد</span></div>
+    <div class="tile" onclick="openModule('settings')" style="grid-column:span 2;"><div class="ic">⚙️</div><b>تنظیمات</b><span>ظاهر، تماس، رمز عبور، بک‌آپ</span></div>
+  </div>
+  <div class="logout-row"><button class="ghost-btn" onclick="logout()">خروج از حساب</button></div>
+</div>
+
+<!-- ================= SETTINGS ================= -->
+<div id="settingsScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>تنظیمات</h1></div>
+  <div class="s-section">
+
+    <div class="s-block">
+      <h3>ظاهر برنامه</h3>
+      <label>رنگ اصلی</label>
+      <div class="swatches" id="swatches"></div>
+      <label>حالت نمایش</label>
+      <div class="mode-row" style="margin-bottom:.8rem;">
+        <button id="modeDarkBtn" onclick="setMode('dark')">🌙 تاریک</button>
+        <button id="modeLightBtn" onclick="setMode('light')">☀️ روشن</button>
+      </div>
+      <label>اندازه فونت</label>
+      <div class="font-row">
+        <button data-fs="14" onclick="setFont(14,this)">کوچک</button>
+        <button data-fs="16" onclick="setFont(16,this)">معمولی</button>
+        <button data-fs="18" onclick="setFont(18,this)">بزرگ</button>
+      </div>
+    </div>
+
+    <div class="s-block">
+      <h3>لوگوی کافه</h3>
+      <label class="logo-upload" id="logoBox">
+        <span id="logoPlaceholder">📷 برای انتخاب لوگو بزن</span>
+        <img id="logoPreview" style="display:none;">
+        <input type="file" accept="image/*" onchange="onLogoChange(event)">
+      </label>
+    </div>
+
+    <div class="s-block">
+      <h3>اطلاعات تماس (روی منوی مشتری نمایش داده می‌شه)</h3>
+      <div class="field"><label>شماره تماس</label><input id="cPhone" placeholder="09xxxxxxxxx"></div>
+      <div class="field"><label>آیدی اینستاگرام</label><input id="cInsta" placeholder="@yourcafe"></div>
+      <div class="field"><label>ایمیل</label><input id="cEmail" placeholder="info@example.com"></div>
+      <div class="field"><label>واتساپ</label><input id="cWhats" placeholder="09xxxxxxxxx"></div>
+      <div class="field"><label>تلگرام</label><input id="cTele" placeholder="@yourcafe"></div>
+      <div class="field"><label>آدرس</label><input id="cAddr" placeholder="آدرس کافه"></div>
+      <button class="gold-btn" style="width:100%;" onclick="saveContact()">ذخیره اطلاعات تماس</button>
+    </div>
+
+    <div class="s-block" id="ownerOnlySettings">
+      <h3>تغییر رمز عبور</h3>
+      <div class="field"><label>رمز فعلی</label><input id="curPw" type="password"></div>
+      <div class="field"><label>رمز جدید</label><input id="newPw" type="password"></div>
+      <button class="ghost-btn" style="width:100%;" onclick="changePassword()">تغییر رمز</button>
+    </div>
+
+    <div class="s-block" id="ownerOnlyBackup">
+      <h3>بک‌آپ</h3>
+      <div class="save-row">
+        <button class="ghost-btn" onclick="downloadBackup()">دانلود بک‌آپ کامل</button>
+        <label class="ghost-btn" style="position:relative;overflow:hidden;text-align:center;">
+          بازگردانی از فایل
+          <input type="file" accept=".json" style="position:absolute;inset:0;opacity:0;cursor:pointer;" onchange="restoreBackup(event)">
+        </label>
+      </div>
+    </div>
+
+    <div class="s-block" id="ownerOnlyTrash">
+      <h3>سطل زباله</h3>
+      <div class="list" id="trashList"></div>
+    </div>
+
+    <div class="s-block" id="ownerOnlyLog">
+      <h3>لاگ فعالیت</h3>
+      <div class="list" id="activityLogList"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= MENU MODULE (admin) ================= -->
+<div id="menuAdminScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>منو و QR</h1></div>
+  <div class="tabs">
+    <div class="tab active" data-tab="items">🍽️ آیتم‌ها</div>
+    <div class="tab" data-tab="perks">⭐ ویژگی‌ها</div>
+    <div class="tab" data-tab="preview">👁️ نمای مشتری</div>
+  </div>
+
+  <div class="m-panel" data-panel="items">
+    <div class="panel-head"><h2>آیتم‌های منو</h2><button class="gold-btn" onclick="openItemModal()">+ افزودن</button></div>
+    <div class="list" id="itemsList"></div>
+  </div>
+
+  <div class="m-panel" data-panel="perks" style="display:none;">
+    <div class="panel-head"><h2>ویژگی‌های پایین صفحه</h2><button class="gold-btn" onclick="openPerkModal()">+ افزودن</button></div>
+    <div class="list" id="perksList"></div>
+  </div>
+
+  <div class="m-panel" data-panel="preview" style="display:none;">
+    <div class="panel-head"><h2>پیش‌نمایش منوی مشتری</h2><button class="gold-btn" onclick="openQr()">📱 QR</button></div>
+    <div style="border:1px solid var(--border);border-radius:1rem;overflow:hidden;">
+      <div class="c-hero"><div class="cup-mark">☕</div><h1 id="pCafeName" style="font-size:1.2rem;"></h1><div class="tag" id="pTagline"></div></div>
+      <div class="c-search"><input id="cSearchInput" placeholder="جستجوی غذا یا نوشیدنی..." oninput="renderCustomerGrid()"></div>
+      <div class="c-cats" id="cCats"></div>
+      <div class="c-grid" id="cGrid" style="padding-bottom:1.2rem;"></div>
+      <div style="padding:1rem 1.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;" id="cPerks"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ITEM MODAL -->
+<div class="overlay" id="itemOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('itemOverlay')">✕</button>
+    <h3 id="itemModalTitle">افزودن آیتم منو</h3>
+    <div class="avail-toggle">
+      <span style="font-size:.78rem;">نمایش در منوی مشتری</span>
+      <div class="switch on" id="availSwitch" onclick="toggleAvail()"></div>
+    </div>
+    <div class="field"><label>عکس غذا</label>
+      <label class="photo-upload" id="photoUploadBox">
+        <span id="photoPlaceholder">📷 برای انتخاب عکس بزن</span>
+        <img id="photoPreview" style="display:none;">
+        <input type="file" accept="image/*" id="photoInput" onchange="onPhotoChange(event)">
+      </label>
+    </div>
+    <div class="field"><label>نام غذا</label><input id="itemName" placeholder="مثلاً پیتزا مارگاریتا"></div>
+    <div class="field"><label>توضیح کوتاه</label><input id="itemDesc" placeholder="مثلاً سس گوجه، پنیر موزارلا"></div>
+    <div class="row-2">
+      <div class="field"><label>قیمت (تومان)</label><input id="itemPrice" placeholder="۲۸۵,۰۰۰"></div>
+      <div class="field"><label>دسته</label><select id="itemCat" onchange="onCatSelectChange()"></select></div>
+    </div>
+    <div class="field hidden" id="newCatField"><label>نام دسته‌ی جدید</label><input id="newCatName" placeholder="مثلاً نوشیدنی گرم"></div>
+    <div class="field"><label>ایموجی جایگزین (اگه عکس نذاری)</label><input id="itemIcon" placeholder="🍕"></div>
+    <div class="field"><label>برچسب ویژه (اختیاری)</label><input id="itemBadge" placeholder="مثلاً محبوب"></div>
+    <div class="save-row">
+      <button class="cancel" onclick="closeModal('itemOverlay')">انصراف</button>
+      <button class="save" onclick="saveItem()">ذخیره آیتم</button>
+    </div>
+  </div>
+</div>
+
+<!-- PERK MODAL -->
+<div class="overlay" id="perkOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('perkOverlay')">✕</button>
+    <h3 id="perkModalTitle">افزودن ویژگی</h3>
+    <div class="field"><label>ایموجی</label><input id="perkIcon" placeholder="🛵"></div>
+    <div class="field"><label>عنوان</label><input id="perkTitle" placeholder="ارسال سریع"></div>
+    <div class="field"><label>توضیح</label><input id="perkText" placeholder="سفارش شما سریع می‌رسه"></div>
+    <div class="save-row">
+      <button class="cancel" onclick="closeModal('perkOverlay')">انصراف</button>
+      <button class="save" onclick="savePerk()">ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<!-- QR MODAL -->
+<div class="overlay" id="qrOverlay">
+  <div class="modal" style="text-align:center;">
+    <button class="close" onclick="closeModal('qrOverlay')">✕</button>
+    <h3>QR کد منوی دیجیتال</h3>
+    <p style="font-size:.72rem;color:var(--muted);margin:.3rem 0 1rem;">این کد به آدرسی که همین فایل ازش باز شده لینک می‌ده. برای اینکه با گوشی مشتری کار کنه، این فایل باید یه‌جا آنلاین میزبانی بشه.</p>
+    <div id="qrcode"></div>
+    <div id="qrUrlBox" style="font-size:.68rem;color:var(--muted);word-break:break-all;background:var(--bg-2);border:1px solid var(--border);border-radius:.6rem;padding:.5rem;margin-bottom:.8rem;"></div>
+    <div class="save-row">
+      <button class="cancel" onclick="downloadQrImg()">دانلود عکس QR</button>
+      <button class="save" onclick="copyMenuUrl()">کپی لینک</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RECIPES ================= -->
+<div id="recipesScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>رسپی‌ها</h1></div>
+  <div class="m-panel">
+    <div class="panel-head"><h2>لیست رسپی‌ها</h2><button class="gold-btn" onclick="openRecipeModal()">+ افزودن رسپی</button></div>
+    <div class="list" id="recipesList"></div>
+  </div>
+</div>
+
+<!-- ================= SALES ================= -->
+<div id="salesScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>فروش</h1></div>
+  <div class="tabs">
+    <div class="tab active" data-stab="invoice">🧾 فاکتور جدید</div>
+    <div class="tab" data-stab="customers">👤 مشتریان</div>
+    <div class="tab" data-stab="invoices">📋 فاکتورها</div>
+    <div class="tab" data-stab="loyalty">🏆 باشگاه مشتریان</div>
+  </div>
+
+  <div class="m-panel" data-spanel="invoice">
+    <div class="s-block">
+      <label>مشتری (اختیاری)</label>
+      <select id="invCustomer" onchange="onInvoiceCustomerChange()"><option value="">بدون مشتری</option></select>
+      <div style="margin-top:.8rem;" id="invDiscountLine"></div>
+      <div id="invLoyaltyBlock" class="hidden" style="margin-top:.8rem;">
+        <label id="invLoyaltyBalance"></label>
+        <input id="invRedeemPoints" type="number" placeholder="چند امتیاز استفاده بشه؟ (اختیاری)" oninput="updateInvoiceTotal()">
+      </div>
+    </div>
+    <div class="s-block">
+      <label>انتخاب آیتم‌ها</label>
+      <div class="list" id="invItemsPicker"></div>
+    </div>
+    <div class="s-block">
+      <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem;color:var(--muted);" id="invPointsEarnLine"></div>
+      <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem;"><span>جمع کل</span><b id="invTotal" style="color:var(--accent-bright);">۰ تومان</b></div>
+      <button class="gold-btn" style="width:100%;" onclick="saveInvoice()">ثبت فاکتور</button>
+    </div>
+  </div>
+
+  <div class="m-panel" data-spanel="customers" style="display:none;">
+    <div class="panel-head"><h2>مشتریان</h2><button class="gold-btn" onclick="openCustomerModal()">+ مشتری جدید</button></div>
+    <div class="list" id="customersList"></div>
+  </div>
+
+  <div class="m-panel" data-spanel="invoices" style="display:none;">
+    <div class="panel-head"><h2>تاریخچه فاکتورها</h2></div>
+    <div class="list" id="invoicesList"></div>
+  </div>
+
+  <div class="m-panel" data-spanel="loyalty" style="display:none;">
+    <div class="s-block">
+      <h3>تنظیمات باشگاه مشتریان</h3>
+      <div class="row-2">
+        <div class="field"><label>هر چند تومان خرید = ۱ امتیاز</label><input id="loyEarnRate" type="number"></div>
+        <div class="field"><label>ارزش هر امتیاز هنگام استفاده (تومان)</label><input id="loyRedeemValue" type="number"></div>
+      </div>
+      <button class="ghost-btn" style="width:100%;" onclick="saveLoyaltySettings()">ذخیره تنظیمات</button>
+    </div>
+    <div class="s-block">
+      <h3>سطح‌های عضویت (بر اساس مجموع امتیاز کسب‌شده)</h3>
+      <div class="list" id="tiersList" style="margin-bottom:.8rem;"></div>
+      <div class="row-2">
+        <input id="newTierName" placeholder="نام سطح، مثلاً طلایی">
+        <input id="newTierMin" type="number" placeholder="حداقل امتیاز">
+      </div>
+      <button class="ghost-btn" style="width:100%;margin-top:.6rem;" onclick="addTier()">+ افزودن سطح</button>
+    </div>
+    <div class="panel-head"><h2>امتیاز مشتریان</h2></div>
+    <div class="list" id="loyaltyCustomersList"></div>
+  </div>
+</div>
+
+<!-- ================= INVENTORY ================= -->
+<div id="inventoryScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>انبار</h1></div>
+  <div class="tabs">
+    <div class="tab active" data-itab="stock">📦 موجودی</div>
+    <div class="tab" data-itab="intake">➕ ورود کالا</div>
+  </div>
+  <div class="m-panel" data-ipanel="stock"><div class="list" id="stockList"></div></div>
+  <div class="m-panel" data-ipanel="intake" style="display:none;">
+    <div class="s-block">
+      <label>آیتم منو</label><select id="intakeItem"></select>
+      <label style="margin-top:.7rem;">تعداد ورودی</label><input id="intakeQty" type="number" placeholder="مثلاً 10">
+      <button class="gold-btn" style="width:100%;margin-top:.8rem;" onclick="saveIntake()">ثبت ورود کالا</button>
+    </div>
+    <div class="panel-head"><h2>تاریخچه ورود کالا</h2></div>
+    <div class="list" id="intakeList"></div>
+  </div>
+</div>
+
+<!-- ================= ORDERS ================= -->
+<div id="ordersScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>سفارش‌گیری</h1></div>
+  <div class="m-panel">
+    <div class="s-block">
+      <label>متن رسید سفارش</label>
+      <textarea id="orderText" rows="3" placeholder="مثلاً میز ۳ - ۲ پیتزا مارگاریتا، ۱ موهیتو"></textarea>
+      <label style="margin-top:.7rem;">عکس غذا (اختیاری)</label>
+      <label class="photo-upload" id="orderPhotoBox">
+        <span id="orderPhotoPlaceholder">📷 افزودن عکس</span>
+        <img id="orderPhotoPreview" style="display:none;">
+        <input type="file" accept="image/*" onchange="onOrderPhotoChange(event)">
+      </label>
+      <button class="gold-btn" style="width:100%;margin-top:.8rem;" onclick="saveOrder()">ثبت سفارش</button>
+    </div>
+    <div class="panel-head"><h2>تاریخچه سفارش‌ها</h2></div>
+    <div class="list" id="ordersList"></div>
+  </div>
+</div>
+
+<!-- ================= ACCOUNTING ================= -->
+<div id="accountingScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>حسابداری</h1></div>
+  <div class="tabs">
+    <div class="tab active" data-atab="box">💵 صندوق</div>
+    <div class="tab" data-atab="expenses">🧾 هزینه‌ها</div>
+    <div class="tab" data-atab="report">📊 گزارش</div>
+    <div class="tab" data-atab="debts">👤 بدهکاران</div>
+  </div>
+
+  <div class="m-panel" data-apanel="box">
+    <div class="s-block" style="text-align:center;">
+      <label>موجودی نقدی فعلی صندوق</label>
+      <div id="cashBoxAmount" style="font-size:1.6rem;font-weight:800;color:var(--accent-bright);margin:.4rem 0 1rem;">۰ تومان</div>
+      <div class="save-row">
+        <button class="ghost-btn" onclick="adjustCash('in')">+ واریز دستی</button>
+        <button class="ghost-btn" onclick="adjustCash('out')">− برداشت دستی</button>
+      </div>
+      <p style="font-size:.68rem;color:var(--muted);margin-top:.8rem;">برای بستن صندوق روزانه، عدد واقعی داخل کشو رو با این عدد مقایسه کن و از دکمه‌های بالا برای اصلاح استفاده کن.</p>
+    </div>
+  </div>
+
+  <div class="m-panel" data-apanel="expenses" style="display:none;">
+    <div class="panel-head"><h2>هزینه‌ها</h2><button class="gold-btn" onclick="openExpenseModal()">+ ثبت هزینه</button></div>
+    <div class="s-block" id="recurringBlock">
+      <h3>هزینه‌های تکرارشونده</h3>
+      <div class="save-row" style="margin-bottom:.6rem;">
+        <select id="recurCat" style="flex:1;"><option value="اجاره">اجاره</option><option value="آب">آب</option><option value="برق">برق</option><option value="گاز">گاز</option><option value="حقوق">حقوق</option></select>
+        <input id="recurAmount" type="number" placeholder="مبلغ" style="flex:1;">
+        <button class="ghost-btn" onclick="addRecurring()">+</button>
+      </div>
+      <div class="list" id="recurringList"></div>
+    </div>
+    <div class="list" id="expensesList"></div>
+  </div>
+
+  <div class="m-panel" data-apanel="report" style="display:none;">
+    <div class="s-block">
+      <div style="display:flex;justify-content:space-between;padding:.4rem 0;"><span>درآمد (کل فاکتورها)</span><b style="color:var(--ok);" id="repIncome">۰</b></div>
+      <div style="display:flex;justify-content:space-between;padding:.4rem 0;"><span>هزینه‌ها</span><b style="color:var(--danger);" id="repExpenses">۰</b></div>
+      <div style="display:flex;justify-content:space-between;padding:.4rem 0;border-top:1px solid var(--border);margin-top:.4rem;"><span>سود/زیان</span><b id="repProfit" style="color:var(--accent-bright);">۰</b></div>
+      <button class="ghost-btn" style="width:100%;margin-top:.8rem;" onclick="downloadAccountingReport()">دانلود گزارش txt</button>
+      <button class="ghost-btn" style="width:100%;margin-top:.5rem;" onclick="downloadAccountingCSV()">دانلود گزارش CSV (اکسل)</button>
+    </div>
+  </div>
+
+  <div class="m-panel" data-apanel="debts" style="display:none;">
+    <div class="list" id="debtsList"></div>
+  </div>
+</div>
+
+<!-- ================= CALCULATOR ================= -->
+<div id="calcScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>ماشین‌حساب</h1></div>
+  <div class="m-panel" style="max-width:320px;">
+    <div class="s-block">
+      <div id="calcDisplay" style="text-align:left;direction:ltr;font-size:1.6rem;padding:.8rem;margin-bottom:.8rem;background:var(--bg-2);border-radius:.7rem;min-height:2.6rem;word-break:break-all;">0</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;">
+        <button class="ghost-btn" onclick="calcInput('C')">C</button>
+        <button class="ghost-btn" onclick="calcInput('(')">(</button>
+        <button class="ghost-btn" onclick="calcInput(')')">)</button>
+        <button class="ghost-btn" onclick="calcInput('/')">÷</button>
+        <button class="ghost-btn" onclick="calcInput('7')">7</button>
+        <button class="ghost-btn" onclick="calcInput('8')">8</button>
+        <button class="ghost-btn" onclick="calcInput('9')">9</button>
+        <button class="ghost-btn" onclick="calcInput('*')">×</button>
+        <button class="ghost-btn" onclick="calcInput('4')">4</button>
+        <button class="ghost-btn" onclick="calcInput('5')">5</button>
+        <button class="ghost-btn" onclick="calcInput('6')">6</button>
+        <button class="ghost-btn" onclick="calcInput('-')">−</button>
+        <button class="ghost-btn" onclick="calcInput('1')">1</button>
+        <button class="ghost-btn" onclick="calcInput('2')">2</button>
+        <button class="ghost-btn" onclick="calcInput('3')">3</button>
+        <button class="ghost-btn" onclick="calcInput('+')">+</button>
+        <button class="ghost-btn" onclick="calcInput('0')" style="grid-column:span 2;">0</button>
+        <button class="ghost-btn" onclick="calcInput('.')">.</button>
+        <button class="gold-btn" onclick="calcInput('=')">=</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= GAMES ================= -->
+<div id="gamesScreen" class="screen hidden">
+  <div class="app-header"><button class="back-btn" onclick="showDash()">→</button><h1>بازی — حدس عدد</h1></div>
+  <div class="m-panel" style="max-width:340px;text-align:center;">
+    <div class="s-block">
+      <p style="font-size:.8rem;color:var(--muted);">یه عدد بین ۱ تا ۱۰۰ حدس بزن</p>
+      <input id="guessInput" type="number" placeholder="عدد رو وارد کن" style="margin-bottom:.7rem;">
+      <button class="gold-btn" style="width:100%;" onclick="makeGuess()">حدس بزن</button>
+      <p id="guessFeedback" style="margin-top:.8rem;font-size:.85rem;color:var(--accent-bright);min-height:1.2rem;"></p>
+      <button class="ghost-btn" style="width:100%;margin-top:.5rem;" onclick="newGuessGame()">بازی جدید</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NEW MODALS ================= -->
+<div class="overlay" id="recipeOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('recipeOverlay')">✕</button>
+    <h3 id="recipeModalTitle">افزودن رسپی</h3>
+    <div class="field"><label>عکس</label>
+      <label class="photo-upload" id="recipePhotoBox">
+        <span id="recipePhotoPlaceholder">📷 انتخاب عکس</span>
+        <img id="recipePhotoPreview" style="display:none;">
+        <input type="file" accept="image/*" onchange="onRecipePhotoChange(event)">
+      </label>
+    </div>
+    <div class="field"><label>نام غذا</label><input id="recipeName"></div>
+    <div class="field"><label>دسته</label><select id="recipeCat" onchange="onRecipeCatChange()"></select></div>
+    <div class="field hidden" id="newRecipeCatField"><label>نام دسته‌ی جدید</label><input id="newRecipeCatName"></div>
+    <div class="field"><label>مواد لازم</label><textarea id="recipeIngredients" rows="3"></textarea></div>
+    <div class="field"><label>دستور پخت</label><textarea id="recipeSteps" rows="4"></textarea></div>
+    <div class="save-row">
+      <button class="cancel" onclick="closeModal('recipeOverlay')">انصراف</button>
+      <button class="save" onclick="saveRecipe()">ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="customerOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('customerOverlay')">✕</button>
+    <h3 id="customerModalTitle">مشتری جدید</h3>
+    <div class="field"><label>نام</label><input id="custName"></div>
+    <div class="field"><label>شماره تماس</label><input id="custPhone"></div>
+    <div class="field"><label>درصد تخفیف</label><input id="custDiscount" type="number" placeholder="0"></div>
+    <div class="save-row">
+      <button class="cancel" onclick="closeModal('customerOverlay')">انصراف</button>
+      <button class="save" onclick="saveCustomer()">ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="expenseOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('expenseOverlay')">✕</button>
+    <h3>ثبت هزینه</h3>
+    <div class="field"><label>دسته</label>
+      <select id="expCat"><option value="آب">آب</option><option value="برق">برق</option><option value="گاز">گاز</option><option value="اجاره">اجاره</option><option value="حقوق">حقوق</option><option value="خرید مواد">خرید مواد</option><option value="متفرقه">متفرقه</option></select>
+    </div>
+    <div class="field"><label>مبلغ (تومان)</label><input id="expAmount" type="number"></div>
+    <div class="field"><label>توضیح (اختیاری)</label><input id="expNote"></div>
+    <div class="save-row">
+      <button class="cancel" onclick="closeModal('expenseOverlay')">انصراف</button>
+      <button class="save" onclick="saveExpense()">ثبت</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="paymentOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('paymentOverlay')">✕</button>
+    <h3>ثبت پرداخت مشتری</h3>
+    <div class="field"><label>مبلغ پرداختی (تومان)</label><input id="paymentAmount" type="number"></div>
+    <div class="save-row">
+      <button class="cancel" onclick="closeModal('paymentOverlay')">انصراف</button>
+      <button class="save" onclick="savePayment()">ثبت پرداخت</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   STORAGE SHIM
+   این اپ اگه داخل محیط چت کلود باز بشه از window.storage خودش استفاده می‌کنه؛
+   ولی اگه بیرون از کلود (اپ نصب‌شده، مرورگر معمولی) باز بشه، همین‌جا با
+   localStorage یه window.storage سازگار می‌سازیم تا بقیه‌ی کد بدون تغییر کار کنه.
+   ============================================================ */
+if(!window.storage){
+  window.storage = {
+    async get(key, shared){
+      try{
+        const raw = localStorage.getItem('cafeapp:'+key);
+        if(raw===null || raw===undefined) return null;
+        return { key, value: raw, shared: !!shared };
+      }catch(e){ return null; }
+    },
+    async set(key, value, shared){
+      try{ localStorage.setItem('cafeapp:'+key, value); return { key, value, shared: !!shared }; }
+      catch(e){ return null; }
+    },
+    async delete(key, shared){
+      try{ localStorage.removeItem('cafeapp:'+key); return { key, deleted:true, shared: !!shared }; }
+      catch(e){ return null; }
+    },
+    async list(prefix, shared){
+      try{
+        const keys = [];
+        for(let i=0;i<localStorage.length;i++){
+          const k = localStorage.key(i);
+          if(k && k.indexOf('cafeapp:')===0){
+            const realKey = k.slice(8);
+            if(!prefix || realKey.indexOf(prefix)===0) keys.push(realKey);
+          }
+        }
+        return { keys, prefix, shared: !!shared };
+      }catch(e){ return null; }
+    }
+  };
+}
+
+/* ============================================================
+   DATA MODEL
+   ============================================================ */
+const ROLE_PW_KEY = 'app-security';
+const DATA_KEY = 'app-data';
+const SESSION_KEY = 'app-session';
+const SESSION_LENGTH_MS = 5*60*1000;
+
+let security = {
+  ownerPassword: '1234',
+  staffPassword: '1111',
+  failedAttempts: 0,
+  lockUntil: 0
+};
+
+let appData = {
+  settings:{ themeColor:'gold', mode:'dark', fontSize:16, logo:'', lastBackupDate:null, contact:{phone:'',instagram:'',email:'',whatsapp:'',telegram:'',address:''} },
+  menu:{
+    cafeName:'کافه گالری ایران', tagline:'طعم واقعی خوش‌مزگی',
+    categories:[
+      {id:'pizza',label:'پیتزا',icon:'🍕'},{id:'burger',label:'برگر',icon:'🍔'},{id:'pasta',label:'پاستا',icon:'🍝'},
+      {id:'drink',label:'نوشیدنی',icon:'🥤'},{id:'dessert',label:'دسر',icon:'🍰'},{id:'salad',label:'سالاد',icon:'🥗'}
+    ],
+    items:[
+      {id:'i1',name:'پیتزا مارگاریتا',desc:'سس گوجه، پنیر موزارلا، ریحان تازه',price:'۲۸۵,۰۰۰',cat:'pizza',icon:'🍕',image:'',badge:'محبوب',available:true},
+      {id:'i2',name:'برگر گلاسیک',desc:'گوشت گریل، پنیر چدار، کاهو، پیاز',price:'۲۶۵,۰۰۰',cat:'burger',icon:'🍔',image:'',badge:'',available:true},
+      {id:'i3',name:'پاستا آلفردو',desc:'سس آلفردو، مرغ گریل، قارچ، پارمزان',price:'۲۳۰,۰۰۰',cat:'pasta',icon:'🍝',image:'',badge:'',available:true}
+    ],
+    perks:[
+      {icon:'🎧',title:'پشتیبانی ۲۴ ساعته',text:'پشتیبانی آنلاین در همه ساعات'},
+      {icon:'🛡️',title:'پرداخت امن',text:'پرداخت آنلاین امن و مطمئن'},
+      {icon:'🛵',title:'ارسال سریع',text:'سفارش شما سریع می‌رسه'},
+      {icon:'🌿',title:'مواد اولیه تازه',text:'استفاده از تازه‌ترین مواد'}
+    ]
+  },
+  recipes:{
+    categories:[{id:'main',label:'غذای اصلی',icon:'🍽️'},{id:'starter',label:'پیش‌غذا',icon:'🥗'},{id:'dessert',label:'دسر',icon:'🍰'}],
+    items:[]
+  },
+  sales:{ customers:[], invoices:[] },
+  loyalty:{ earnRate:50000, redeemValue:2000, tiers:[{id:'t1',name:'برنزی',minPoints:0},{id:'t2',name:'نقره‌ای',minPoints:20},{id:'t3',name:'طلایی',minPoints:60}] },
+  inventory:{ stock:{}, intake:[] },
+  orders:{ list:[] },
+  accounting:{ cashBox:0, expenses:[], recurring:[] },
+  trash:[],
+  activityLog:[]
+};
+
+const THEMES = {
+  gold:{bright:'#e8bd7a',deep:'#8a6a2f',mid:'#cda15b'},
+  green:{bright:'#a3d99b',deep:'#3f6a3a',mid:'#7fae7a'},
+  red:{bright:'#e0988a',deep:'#6a332a',mid:'#c07a6a'},
+  blue:{bright:'#8ab0e0',deep:'#2a4a6a',mid:'#6a90c0'}
+};
+
+let currentRole = 'owner';
+let inactivityTimer = null;
+
+/* ============================================================
+   STORAGE
+   ============================================================ */
+async function loadAll(){
+  try{ const r = await window.storage.get(DATA_KEY,false); if(r&&r.value) appData = JSON.parse(r.value); }catch(e){}
+  try{ const r = await window.storage.get(ROLE_PW_KEY,false); if(r&&r.value) security = JSON.parse(r.value); }catch(e){}
+}
+async function persistData(){ try{ await window.storage.set(DATA_KEY, JSON.stringify(appData), false); }catch(e){ console.error(e); } }
+async function persistSecurity(){ try{ await window.storage.set(ROLE_PW_KEY, JSON.stringify(security), false); }catch(e){ console.error(e); } }
+
+function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function q(sel){ return document.querySelector(sel); }
+function logActivity(action){
+  appData.activityLog.unshift({time:new Date().toISOString(), role:currentRole, action});
+  if(appData.activityLog.length>200) appData.activityLog.length = 200;
+}
+function pushTrash(type, data){
+  appData.trash.unshift({id:'t'+Date.now(), type, data, deletedAt:new Date().toISOString()});
+  if(appData.trash.length>100) appData.trash.length = 100;
+}
+
+/* ============================================================
+   THEME / FONT / MODE
+   ============================================================ */
+function applyTheme(){
+  const t = THEMES[appData.settings.themeColor] || THEMES.gold;
+  document.documentElement.style.setProperty('--accent', t.mid);
+  document.documentElement.style.setProperty('--accent-bright', t.bright);
+  document.documentElement.style.setProperty('--accent-deep', t.deep);
+  document.documentElement.style.setProperty('--fs', appData.settings.fontSize+'px');
+  document.body.classList.toggle('light', appData.settings.mode==='light');
+}
+function renderSwatches(){
+  const wrap = document.getElementById('swatches');
+  wrap.innerHTML = Object.keys(THEMES).map(key=>{
+    const t = THEMES[key];
+    const active = appData.settings.themeColor===key ? 'active' : '';
+    return `<div class="swatch ${active}" style="background:linear-gradient(135deg,${t.bright},${t.deep})" onclick="setThemeColor('${key}')"></div>`;
+  }).join('');
+}
+async function setThemeColor(key){ appData.settings.themeColor=key; applyTheme(); renderSwatches(); await persistData(); }
+async function setMode(m){ appData.settings.mode=m; applyTheme(); updateModeButtons(); await persistData(); }
+function updateModeButtons(){
+  document.getElementById('modeDarkBtn').classList.toggle('active', appData.settings.mode==='dark');
+  document.getElementById('modeLightBtn').classList.toggle('active', appData.settings.mode==='light');
+}
+async function setFont(px, btn){
+  appData.settings.fontSize = px; applyTheme();
+  document.querySelectorAll('.font-row button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  await persistData();
+}
+function updateFontButtons(){
+  document.querySelectorAll('.font-row button').forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.fs)===appData.settings.fontSize);
+  });
+}
+
+/* ============================================================
+   AUTH
+   ============================================================ */
+function pickRole(role){
+  currentRole = role;
+  document.getElementById('roleOwnerBtn').classList.toggle('active', role==='owner');
+  document.getElementById('roleStaffBtn').classList.toggle('active', role==='staff');
+}
+async function login(){
+  const now = Date.now();
+  if(security.lockUntil && now < security.lockUntil){
+    const secs = Math.ceil((security.lockUntil-now)/1000);
+    document.getElementById('loginErr').textContent = `چند تلاش اشتباه داشتی؛ ${secs} ثانیه دیگه امتحان کن`;
+    return;
+  }
+  const val = document.getElementById('pwInput').value;
+  const correct = currentRole==='owner' ? security.ownerPassword : security.staffPassword;
+  if(val === correct){
+    security.failedAttempts = 0; security.lockUntil = 0; await persistSecurity();
+    document.getElementById('pwInput').value='';
+    document.getElementById('loginErr').textContent='';
+    document.getElementById('loginScreen').classList.add('hidden');
+    await saveSession();
+    showDash();
+    resetInactivityTimer();
+  }else{
+    security.failedAttempts = (security.failedAttempts||0)+1;
+    if(security.failedAttempts>=5){ security.lockUntil = Date.now()+120000; security.failedAttempts=0; }
+    await persistSecurity();
+    document.getElementById('loginErr').textContent='رمز اشتباهه، دوباره امتحان کن';
+  }
+}
+async function saveSession(){
+  try{ await window.storage.set(SESSION_KEY, JSON.stringify({role:currentRole, expiresAt:Date.now()+SESSION_LENGTH_MS}), false); }catch(e){}
+}
+async function clearSession(){
+  try{ await window.storage.delete(SESSION_KEY, false); }catch(e){}
+}
+async function checkSession(){
+  try{
+    const r = await window.storage.get(SESSION_KEY, false);
+    if(r && r.value){
+      const s = JSON.parse(r.value);
+      if(s.expiresAt > Date.now()){ currentRole = s.role; return true; }
+    }
+  }catch(e){}
+  return false;
+}
+function logout(){
+  hideAllScreens();
+  document.getElementById('loginScreen').classList.remove('hidden');
+  clearTimeout(inactivityTimer);
+  clearSession();
+}
+function resetInactivityTimer(){
+  clearTimeout(inactivityTimer);
+  saveSession();
+  inactivityTimer = setTimeout(()=>{ toast('به‌خاطر عدم فعالیت، خارج شدی'); logout(); }, SESSION_LENGTH_MS);
+}
+document.addEventListener('click', resetInactivityTimer);
+document.addEventListener('keydown', resetInactivityTimer);
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function hideAllScreens(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+}
+function showDash(){
+  hideAllScreens();
+  document.getElementById('dashScreen').classList.remove('hidden');
+  document.getElementById('dashCafeName').textContent = appData.menu.cafeName;
+  document.getElementById('dashRoleTag').textContent = 'وارد شده به‌عنوان ' + (currentRole==='owner'?'مدیر':'کارمند');
+  document.getElementById('ownerOnlySettings').style.display = currentRole==='owner' ? 'block':'none';
+  document.getElementById('ownerOnlyBackup').style.display = currentRole==='owner' ? 'block':'none';
+  const today = new Date().toDateString();
+  const needsBackup = currentRole==='owner' && appData.settings.lastBackupDate !== today;
+  document.getElementById('backupBanner').classList.toggle('hidden', !needsBackup);
+}
+function openModule(name){
+  hideAllScreens();
+  if(name==='menu'){ document.getElementById('menuAdminScreen').classList.remove('hidden'); renderItems(); renderPerks(); return; }
+  if(name==='settings'){ document.getElementById('settingsScreen').classList.remove('hidden'); openSettings(); return; }
+  if(name==='recipes'){ document.getElementById('recipesScreen').classList.remove('hidden'); renderRecipes(); return; }
+  if(name==='sales'){ document.getElementById('salesScreen').classList.remove('hidden'); initSalesScreen(); return; }
+  if(name==='inventory'){ document.getElementById('inventoryScreen').classList.remove('hidden'); initInventoryScreen(); return; }
+  if(name==='orders'){ document.getElementById('ordersScreen').classList.remove('hidden'); renderOrders(); return; }
+  if(name==='accounting'){ document.getElementById('accountingScreen').classList.remove('hidden'); initAccountingScreen(); return; }
+  if(name==='calc'){ document.getElementById('calcScreen').classList.remove('hidden'); calcExpr=''; updateCalcDisplay(); return; }
+  if(name==='games'){ document.getElementById('gamesScreen').classList.remove('hidden'); if(!guessTarget) newGuessGame(); return; }
+}
+
+/* ============================================================
+   SETTINGS SCREEN
+   ============================================================ */
+function openSettings(){
+  document.getElementById('ownerOnlySettings').style.display = currentRole==='owner' ? 'block':'none';
+  document.getElementById('ownerOnlyBackup').style.display = currentRole==='owner' ? 'block':'none';
+  document.getElementById('ownerOnlyTrash').style.display = currentRole==='owner' ? 'block':'none';
+  document.getElementById('ownerOnlyLog').style.display = currentRole==='owner' ? 'block':'none';
+  renderSwatches(); updateModeButtons(); updateFontButtons();
+  renderTrash(); renderActivityLog();
+  const c = appData.settings.contact;
+  document.getElementById('cPhone').value = c.phone||'';
+  document.getElementById('cInsta').value = c.instagram||'';
+  document.getElementById('cEmail').value = c.email||'';
+  document.getElementById('cWhats').value = c.whatsapp||'';
+  document.getElementById('cTele').value = c.telegram||'';
+  document.getElementById('cAddr').value = c.address||'';
+  if(appData.settings.logo){
+    document.getElementById('logoPreview').src = appData.settings.logo;
+    document.getElementById('logoPreview').style.display='block';
+    document.getElementById('logoPlaceholder').style.display='none';
+  }
+}
+function onLogoChange(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async ()=>{
+    document.getElementById('logoPreview').src = reader.result;
+    document.getElementById('logoPreview').style.display='block';
+    document.getElementById('logoPlaceholder').style.display='none';
+    appData.settings.logo = reader.result;
+    await persistData();
+    toast('لوگو ذخیره شد');
+  };
+  reader.readAsDataURL(file);
+}
+async function saveContact(){
+  appData.settings.contact = {
+    phone: document.getElementById('cPhone').value.trim(),
+    instagram: document.getElementById('cInsta').value.trim(),
+    email: document.getElementById('cEmail').value.trim(),
+    whatsapp: document.getElementById('cWhats').value.trim(),
+    telegram: document.getElementById('cTele').value.trim(),
+    address: document.getElementById('cAddr').value.trim()
+  };
+  await persistData();
+  toast('اطلاعات تماس ذخیره شد');
+}
+const TRASH_LABELS = { menuItem:'آیتم منو', recipe:'رسپی', customer:'مشتری', order:'سفارش' };
+function renderTrash(){
+  const list = document.getElementById('trashList');
+  if(!appData.trash.length){ list.innerHTML='<div class="empty">سطل زباله خالیه</div>'; return; }
+  list.innerHTML = appData.trash.map(t=>{
+    const name = t.data.name || t.data.text || 'مورد بدون نام';
+    return `<div class="row">
+      <div class="thumb">🗑️</div>
+      <div class="info"><b>${name}</b><span>${TRASH_LABELS[t.type]||t.type} · ${new Date(t.deletedAt).toLocaleDateString('fa-IR')}</span></div>
+      <div class="actions">
+        <button class="icon-btn" onclick="restoreFromTrash('${t.id}')">↩️</button>
+        <button class="icon-btn del" onclick="permanentlyDeleteTrash('${t.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function restoreFromTrash(id){
+  const t = appData.trash.find(x=>x.id===id); if(!t) return;
+  if(t.type==='menuItem') appData.menu.items.push(t.data);
+  if(t.type==='recipe') appData.recipes.items.push(t.data);
+  if(t.type==='customer') appData.sales.customers.push(t.data);
+  if(t.type==='order') appData.orders.list.push(t.data);
+  appData.trash = appData.trash.filter(x=>x.id!==id);
+  logActivity(`بازگردانی از سطل زباله: ${TRASH_LABELS[t.type]||t.type}`);
+  await persistData(); renderTrash(); toast('بازگردانی شد');
+}
+async function permanentlyDeleteTrash(id){
+  if(!confirm('این مورد برای همیشه حذف بشه؟ دیگه قابل بازگردانی نیست.')) return;
+  appData.trash = appData.trash.filter(x=>x.id!==id);
+  await persistData(); renderTrash();
+}
+function renderActivityLog(){
+  const list = document.getElementById('activityLogList');
+  if(!appData.activityLog.length){ list.innerHTML='<div class="empty">هنوز فعالیتی ثبت نشده</div>'; return; }
+  list.innerHTML = appData.activityLog.slice(0,40).map(a=>`
+    <div class="row"><div class="thumb">📝</div><div class="info"><b>${a.action}</b><span>${a.role==='owner'?'مدیر':'کارمند'} · ${new Date(a.time).toLocaleString('fa-IR')}</span></div></div>`).join('');
+}
+
+async function changePassword(){
+  const cur = document.getElementById('curPw').value;
+  const next = document.getElementById('newPw').value;
+  if(cur !== security.ownerPassword){ toast('رمز فعلی اشتباهه'); return; }
+  if(!next || next.length<4){ toast('رمز جدید باید حداقل ۴ کاراکتر باشه'); return; }
+  security.ownerPassword = next;
+  await persistSecurity();
+  logActivity('تغییر رمز عبور مدیر');
+  await persistData();
+  document.getElementById('curPw').value=''; document.getElementById('newPw').value='';
+  toast('رمز عوض شد');
+}
+function downloadBackup(){
+  const backup = { appData, security, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(backup,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='backup-کافه-گالری-ایران.json'; a.click();
+  URL.revokeObjectURL(url);
+  appData.settings.lastBackupDate = new Date().toDateString();
+  persistData();
+  document.getElementById('backupBanner').classList.add('hidden');
+  toast('فایل بک‌آپ دانلود شد');
+}
+function restoreBackup(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async ()=>{
+    try{
+      const parsed = JSON.parse(reader.result);
+      if(parsed.appData) appData = parsed.appData;
+      if(parsed.security) security = parsed.security;
+      await persistData(); await persistSecurity();
+      applyTheme(); showDash();
+      toast('بازگردانی با موفقیت انجام شد');
+    }catch(err){ toast('فایل بک‌آپ معتبر نیست'); }
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   MENU MODULE — tabs
+   ============================================================ */
+document.querySelectorAll('#menuAdminScreen .tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('#menuAdminScreen .tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('#menuAdminScreen .m-panel').forEach(p=>p.style.display = (p.dataset.panel===t.dataset.tab)?'block':'none');
+    if(t.dataset.tab==='preview') renderCustomerPreview();
+  });
+});
+
+function renderItems(){
+  const list = document.getElementById('itemsList');
+  if(!appData.menu.items.length){ list.innerHTML='<div class="empty">هنوز آیتمی اضافه نشده</div>'; return; }
+  list.innerHTML = appData.menu.items.map(it=>{
+    const catLabel = (appData.menu.categories.find(c=>c.id===it.cat)||{}).label || it.cat;
+    return `<div class="row ${it.available?'':'unavailable'}">
+      <div class="thumb">${it.image?`<img src="${it.image}">`:(it.icon||'🍽️')}</div>
+      <div class="info"><b>${it.name}</b><span>${catLabel}${it.badge?' · '+it.badge:''}${it.available?'':' · مخفی'}</span></div>
+      <div class="price">${it.price} تومان</div>
+      <div class="actions">
+        <button class="icon-btn" onclick="openItemModal('${it.id}')">✎</button>
+        <button class="icon-btn del" onclick="deleteItem('${it.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderPerks(){
+  const list = document.getElementById('perksList');
+  if(!appData.menu.perks.length){ list.innerHTML='<div class="empty">هنوز ویژگی‌ای اضافه نشده</div>'; return; }
+  list.innerHTML = appData.menu.perks.map((p,idx)=>`
+    <div class="row">
+      <div class="thumb">${p.icon}</div>
+      <div class="info"><b>${p.title}</b><span>${p.text}</span></div>
+      <div class="actions">
+        <button class="icon-btn" onclick="openPerkModal(${idx})">✎</button>
+        <button class="icon-btn del" onclick="deletePerk(${idx})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ---- item modal ---- */
+let editingItemId = null;
+function refreshCatSelect(){
+  const sel = document.getElementById('itemCat');
+  sel.innerHTML = appData.menu.categories.map(c=>`<option value="${c.id}">${c.icon} ${c.label}</option>`).join('') + `<option value="__new__">+ دسته‌ی جدید...</option>`;
+}
+function onCatSelectChange(){
+  document.getElementById('newCatField').classList.toggle('hidden', document.getElementById('itemCat').value !== '__new__');
+}
+let itemAvailable = true;
+function toggleAvail(){
+  itemAvailable = !itemAvailable;
+  document.getElementById('availSwitch').classList.toggle('on', itemAvailable);
+}
+function openItemModal(id){
+  editingItemId = id || null;
+  refreshCatSelect();
+  document.getElementById('newCatField').classList.add('hidden');
+  document.getElementById('photoPreview').style.display='none';
+  document.getElementById('photoPlaceholder').style.display='block';
+  document.getElementById('photoInput').value='';
+  itemAvailable = true;
+  document.getElementById('availSwitch').classList.add('on');
+  if(id){
+    const it = appData.menu.items.find(x=>x.id===id);
+    document.getElementById('itemModalTitle').textContent='ویرایش آیتم';
+    document.getElementById('itemName').value = it.name;
+    document.getElementById('itemDesc').value = it.desc;
+    document.getElementById('itemPrice').value = it.price;
+    document.getElementById('itemCat').value = it.cat;
+    document.getElementById('itemIcon').value = it.icon||'';
+    document.getElementById('itemBadge').value = it.badge||'';
+    itemAvailable = it.available!==false;
+    document.getElementById('availSwitch').classList.toggle('on', itemAvailable);
+    if(it.image){ document.getElementById('photoPreview').src=it.image; document.getElementById('photoPreview').style.display='block'; document.getElementById('photoPlaceholder').style.display='none'; }
+  }else{
+    document.getElementById('itemModalTitle').textContent='افزودن آیتم منو';
+    ['itemName','itemDesc','itemPrice','itemIcon','itemBadge'].forEach(id=>document.getElementById(id).value='');
+  }
+  document.getElementById('itemOverlay').classList.add('open');
+}
+function onPhotoChange(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ document.getElementById('photoPreview').src=reader.result; document.getElementById('photoPreview').style.display='block'; document.getElementById('photoPlaceholder').style.display='none'; };
+  reader.readAsDataURL(file);
+}
+async function saveItem(){
+  const name = document.getElementById('itemName').value.trim();
+  if(!name){ toast('اسم غذا رو وارد کن'); return; }
+  let catId = document.getElementById('itemCat').value;
+  if(catId === '__new__'){
+    const newLabel = document.getElementById('newCatName').value.trim();
+    if(!newLabel){ toast('اسم دسته‌ی جدید رو وارد کن'); return; }
+    catId = 'c'+Date.now();
+    appData.menu.categories.push({id:catId, label:newLabel, icon:'🍽️'});
+  }
+  const payload = {
+    name, desc: document.getElementById('itemDesc').value.trim(), price: document.getElementById('itemPrice').value.trim(),
+    cat: catId, icon: document.getElementById('itemIcon').value.trim()||'🍽️', badge: document.getElementById('itemBadge').value.trim(),
+    image: (document.getElementById('photoPreview').style.display==='block') ? document.getElementById('photoPreview').src : '',
+    available: itemAvailable
+  };
+  if(editingItemId){
+    const idx = appData.menu.items.findIndex(x=>x.id===editingItemId);
+    appData.menu.items[idx] = {...appData.menu.items[idx], ...payload};
+    logActivity(`ویرایش آیتم منو: ${name}`);
+  }else{
+    appData.menu.items.push({id:'i'+Date.now(), ...payload});
+    logActivity(`افزودن آیتم منو: ${name}`);
+  }
+  await persistData();
+  renderItems(); closeModal('itemOverlay'); toast('آیتم ذخیره شد');
+}
+async function deleteItem(id){
+  if(!confirm('این آیتم حذف بشه؟ (قابل بازگردانی از سطل زباله)')) return;
+  const it = appData.menu.items.find(x=>x.id===id);
+  pushTrash('menuItem', it);
+  logActivity(`حذف آیتم منو: ${it.name}`);
+  appData.menu.items = appData.menu.items.filter(x=>x.id!==id);
+  await persistData(); renderItems();
+}
+
+/* ---- perk modal ---- */
+let editingPerkIdx = null;
+function openPerkModal(idx){
+  editingPerkIdx = (idx===undefined) ? null : idx;
+  if(editingPerkIdx!==null){
+    const p = appData.menu.perks[editingPerkIdx];
+    document.getElementById('perkModalTitle').textContent='ویرایش ویژگی';
+    document.getElementById('perkIcon').value=p.icon; document.getElementById('perkTitle').value=p.title; document.getElementById('perkText').value=p.text;
+  }else{
+    document.getElementById('perkModalTitle').textContent='افزودن ویژگی';
+    document.getElementById('perkIcon').value=''; document.getElementById('perkTitle').value=''; document.getElementById('perkText').value='';
+  }
+  document.getElementById('perkOverlay').classList.add('open');
+}
+async function savePerk(){
+  const title = document.getElementById('perkTitle').value.trim();
+  if(!title){ toast('عنوان رو وارد کن'); return; }
+  const payload = { icon: document.getElementById('perkIcon').value.trim()||'⭐', title, text: document.getElementById('perkText').value.trim() };
+  if(editingPerkIdx!==null) appData.menu.perks[editingPerkIdx]=payload; else appData.menu.perks.push(payload);
+  await persistData(); renderPerks(); closeModal('perkOverlay'); toast('ذخیره شد');
+}
+async function deletePerk(idx){
+  if(!confirm('حذف بشه؟')) return;
+  appData.menu.perks.splice(idx,1); await persistData(); renderPerks();
+}
+
+/* ============================================================
+   CUSTOMER PREVIEW (inside admin) + QR
+   ============================================================ */
+let activeCat = 'all';
+function renderCustomerPreview(){
+  document.getElementById('pCafeName').textContent = appData.menu.cafeName;
+  document.getElementById('pTagline').textContent = appData.menu.tagline;
+  const catsEl = document.getElementById('cCats');
+  catsEl.innerHTML = '<div class="cat-pill active" data-cat="all">🍽️ همه</div>' +
+    appData.menu.categories.map(c=>`<div class="cat-pill" data-cat="${c.id}">${c.icon} ${c.label}</div>`).join('');
+  catsEl.onclick = (e)=>{
+    const pill = e.target.closest('.cat-pill'); if(!pill) return;
+    catsEl.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active'); activeCat = pill.dataset.cat; renderCustomerGrid();
+  };
+  document.getElementById('cPerks').innerHTML = appData.menu.perks.map(p=>`
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:.8rem;padding:.8rem .5rem;text-align:center;">
+      <div style="font-size:1.1rem;">${p.icon}</div><b style="font-size:.65rem;display:block;margin:.3rem 0 .1rem;color:var(--accent-bright);">${p.title}</b><span style="font-size:.6rem;color:var(--muted);">${p.text}</span>
+    </div>`).join('');
+  activeCat='all';
+  renderCustomerGrid();
+}
+function renderCustomerGrid(){
+  const q = document.getElementById('cSearchInput').value.trim();
+  let list = appData.menu.items.filter(i=>i.available!==false);
+  if(activeCat!=='all') list = list.filter(i=>i.cat===activeCat);
+  if(q) list = list.filter(i=> i.name.includes(q) || i.desc.includes(q));
+  document.getElementById('cGrid').innerHTML = list.map(it=>`
+    <div class="c-card"><div class="c-media">
+      ${it.badge?`<div class="c-badge">★ ${it.badge}</div>`:''}
+      ${it.image?`<img src="${it.image}">`:it.icon}
+    </div><div class="c-body"><h3>${it.name}</h3><p>${it.desc}</p><div class="c-price">${it.price}<small style="color:var(--muted);font-size:.6rem;"> تومان</small></div></div></div>`).join('');
+}
+function openQr(){
+  document.getElementById('qrOverlay').classList.add('open');
+  const url = window.location.href;
+  document.getElementById('qrUrlBox').textContent = url;
+  const holder = document.getElementById('qrcode'); holder.innerHTML='';
+  new QRCode(holder, { text:url, width:180, height:180, colorDark:'#1a1206', colorLight:'#ffffff' });
+}
+function downloadQrImg(){
+  const holder = document.getElementById('qrcode');
+  const img = holder.querySelector('img') || holder.querySelector('canvas');
+  const link = document.createElement('a'); link.download='qr-menu.png';
+  link.href = img.tagName==='CANVAS' ? img.toDataURL('image/png') : img.src;
+  link.click();
+}
+function copyMenuUrl(){
+  navigator.clipboard.writeText(window.location.href).then(()=>toast('لینک کپی شد'));
+}
+
+/* ============================================================
+   RECIPES
+   ============================================================ */
+function renderRecipes(){
+  const list = document.getElementById('recipesList');
+  if(!appData.recipes.items.length){ list.innerHTML='<div class="empty">هنوز رسپی‌ای اضافه نشده</div>'; return; }
+  list.innerHTML = appData.recipes.items.map(r=>{
+    const catLabel = (appData.recipes.categories.find(c=>c.id===r.cat)||{}).label || r.cat;
+    return `<div class="row">
+      <div class="thumb">${r.image?`<img src="${r.image}">`:'🍽️'}</div>
+      <div class="info"><b>${r.name}</b><span>${catLabel}</span></div>
+      <div class="actions">
+        <button class="icon-btn" onclick="openRecipeModal('${r.id}')">✎</button>
+        <button class="icon-btn del" onclick="deleteRecipe('${r.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+let editingRecipeId = null;
+function refreshRecipeCatSelect(){
+  const sel = document.getElementById('recipeCat');
+  sel.innerHTML = appData.recipes.categories.map(c=>`<option value="${c.id}">${c.icon} ${c.label}</option>`).join('') + `<option value="__new__">+ دسته‌ی جدید...</option>`;
+}
+function onRecipeCatChange(){
+  document.getElementById('newRecipeCatField').classList.toggle('hidden', document.getElementById('recipeCat').value !== '__new__');
+}
+function onRecipePhotoChange(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ document.getElementById('recipePhotoPreview').src=reader.result; document.getElementById('recipePhotoPreview').style.display='block'; document.getElementById('recipePhotoPlaceholder').style.display='none'; };
+  reader.readAsDataURL(file);
+}
+function openRecipeModal(id){
+  editingRecipeId = id || null;
+  refreshRecipeCatSelect();
+  document.getElementById('newRecipeCatField').classList.add('hidden');
+  document.getElementById('recipePhotoPreview').style.display='none';
+  document.getElementById('recipePhotoPlaceholder').style.display='block';
+  if(id){
+    const r = appData.recipes.items.find(x=>x.id===id);
+    document.getElementById('recipeModalTitle').textContent='ویرایش رسپی';
+    document.getElementById('recipeName').value=r.name;
+    document.getElementById('recipeCat').value=r.cat;
+    document.getElementById('recipeIngredients').value=r.ingredients||'';
+    document.getElementById('recipeSteps').value=r.steps||'';
+    if(r.image){ document.getElementById('recipePhotoPreview').src=r.image; document.getElementById('recipePhotoPreview').style.display='block'; document.getElementById('recipePhotoPlaceholder').style.display='none'; }
+  }else{
+    document.getElementById('recipeModalTitle').textContent='افزودن رسپی';
+    ['recipeName','recipeIngredients','recipeSteps'].forEach(id=>document.getElementById(id).value='');
+  }
+  document.getElementById('recipeOverlay').classList.add('open');
+}
+async function saveRecipe(){
+  const name = document.getElementById('recipeName').value.trim();
+  if(!name){ toast('اسم غذا رو وارد کن'); return; }
+  let catId = document.getElementById('recipeCat').value;
+  if(catId==='__new__'){
+    const newLabel = document.getElementById('newRecipeCatName').value.trim();
+    if(!newLabel){ toast('اسم دسته‌ی جدید رو وارد کن'); return; }
+    catId = 'rc'+Date.now();
+    appData.recipes.categories.push({id:catId,label:newLabel,icon:'🍽️'});
+  }
+  const payload = {
+    name, cat:catId,
+    ingredients: document.getElementById('recipeIngredients').value.trim(),
+    steps: document.getElementById('recipeSteps').value.trim(),
+    image: (document.getElementById('recipePhotoPreview').style.display==='block') ? document.getElementById('recipePhotoPreview').src : ''
+  };
+  if(editingRecipeId){
+    const idx = appData.recipes.items.findIndex(x=>x.id===editingRecipeId);
+    appData.recipes.items[idx] = {...appData.recipes.items[idx], ...payload};
+  }else{
+    appData.recipes.items.push({id:'r'+Date.now(), ...payload});
+  }
+  await persistData(); renderRecipes(); closeModal('recipeOverlay'); toast('رسپی ذخیره شد');
+}
+async function deleteRecipe(id){
+  if(!confirm('این رسپی حذف بشه؟ (قابل بازگردانی از سطل زباله)')) return;
+  const r = appData.recipes.items.find(x=>x.id===id);
+  pushTrash('recipe', r);
+  logActivity(`حذف رسپی: ${r.name}`);
+  appData.recipes.items = appData.recipes.items.filter(x=>x.id!==id);
+  await persistData(); renderRecipes();
+}
+
+/* ============================================================
+   SALES
+   ============================================================ */
+function initSalesScreen(){
+  document.querySelectorAll('#salesScreen .tab').forEach(t=>{
+    t.onclick = ()=>{
+      document.querySelectorAll('#salesScreen .tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('#salesScreen [data-spanel]').forEach(p=>p.style.display = (p.dataset.spanel===t.dataset.stab)?'block':'none');
+    };
+  });
+  renderCustomers(); renderInvoicePicker(); renderInvoices(); renderLoyaltySettings(); renderTiers(); renderLoyaltyCustomers();
+}
+function renderCustomers(){
+  const list = document.getElementById('customersList');
+  const sel = document.getElementById('invCustomer');
+  sel.innerHTML = '<option value="">بدون مشتری</option>' + appData.sales.customers.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  if(!appData.sales.customers.length){ list.innerHTML='<div class="empty">هنوز مشتری‌ای ثبت نشده</div>'; return; }
+  list.innerHTML = appData.sales.customers.map(c=>{
+    const tier = getTierForPoints(c.lifetimePoints||0);
+    return `<div class="row">
+      <div class="thumb">👤</div>
+      <div class="info"><b>${c.name}</b><span>${c.phone||''} · تخفیف ${c.discount||0}% · مانده: ${(c.balance||0).toLocaleString('fa-IR')} تومان · ${tier?tier.name:''} (${c.points||0} امتیاز)</span></div>
+      <div class="actions">
+        ${c.balance>0?`<button class="icon-btn" onclick="openPaymentModal('${c.id}')">💵</button>`:''}
+        <button class="icon-btn" onclick="openCustomerModal('${c.id}')">✎</button>
+        <button class="icon-btn del" onclick="deleteCustomer('${c.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+let editingCustomerId = null;
+function openCustomerModal(id){
+  editingCustomerId = id || null;
+  if(id){
+    const c = appData.sales.customers.find(x=>x.id===id);
+    document.getElementById('customerModalTitle').textContent='ویرایش مشتری';
+    document.getElementById('custName').value=c.name; document.getElementById('custPhone').value=c.phone||''; document.getElementById('custDiscount').value=c.discount||0;
+  }else{
+    document.getElementById('customerModalTitle').textContent='مشتری جدید';
+    document.getElementById('custName').value=''; document.getElementById('custPhone').value=''; document.getElementById('custDiscount').value='';
+  }
+  document.getElementById('customerOverlay').classList.add('open');
+}
+async function saveCustomer(){
+  const name = document.getElementById('custName').value.trim();
+  if(!name){ toast('اسم مشتری رو وارد کن'); return; }
+  const payload = { name, phone:document.getElementById('custPhone').value.trim(), discount:Number(document.getElementById('custDiscount').value)||0 };
+  if(editingCustomerId){
+    const idx = appData.sales.customers.findIndex(x=>x.id===editingCustomerId);
+    appData.sales.customers[idx] = {...appData.sales.customers[idx], ...payload};
+  }else{
+    appData.sales.customers.push({id:'cu'+Date.now(), balance:0, points:0, lifetimePoints:0, ...payload});
+  }
+  await persistData(); renderCustomers(); closeModal('customerOverlay'); toast('ذخیره شد');
+}
+async function deleteCustomer(id){
+  if(!confirm('این مشتری حذف بشه؟ (قابل بازگردانی از سطل زباله)')) return;
+  const c = appData.sales.customers.find(x=>x.id===id);
+  pushTrash('customer', c);
+  logActivity(`حذف مشتری: ${c.name}`);
+  appData.sales.customers = appData.sales.customers.filter(x=>x.id!==id);
+  await persistData(); renderCustomers();
+}
+let openPaymentCustomerId = null;
+function openPaymentModal(id){ openPaymentCustomerId = id; document.getElementById('paymentAmount').value=''; document.getElementById('paymentOverlay').classList.add('open'); }
+async function savePayment(){
+  const amount = Number(document.getElementById('paymentAmount').value)||0;
+  if(amount<=0){ toast('مبلغ رو وارد کن'); return; }
+  const c = appData.sales.customers.find(x=>x.id===openPaymentCustomerId);
+  c.balance = Math.max(0,(c.balance||0)-amount);
+  appData.accounting.cashBox = (appData.accounting.cashBox||0)+amount;
+  await persistData(); renderCustomers(); closeModal('paymentOverlay'); toast('پرداخت ثبت شد');
+}
+
+let invoiceCart = {};
+function renderInvoicePicker(){
+  const wrap = document.getElementById('invItemsPicker');
+  wrap.innerHTML = appData.menu.items.filter(i=>i.available!==false).map(it=>`
+    <div class="row">
+      <div class="thumb">${it.image?`<img src="${it.image}">`:it.icon}</div>
+      <div class="info"><b>${it.name}</b><span>${it.price} تومان</span></div>
+      <div class="actions" style="align-items:center;gap:.4rem;">
+        <button class="icon-btn" onclick="cartChange('${it.id}',-1)">−</button>
+        <span id="cartQty-${it.id}" style="min-width:1.2rem;text-align:center;font-size:.8rem;">${invoiceCart[it.id]||0}</span>
+        <button class="icon-btn" onclick="cartChange('${it.id}',1)">+</button>
+      </div>
+    </div>`).join('');
+  updateInvoiceTotal();
+}
+function cartChange(id,delta){
+  invoiceCart[id] = Math.max(0,(invoiceCart[id]||0)+delta);
+  document.getElementById('cartQty-'+id).textContent = invoiceCart[id];
+  updateInvoiceTotal();
+}
+function toEnglishDigits(str){
+  const persian = '۰۱۲۳۴۵۶۷۸۹', arabic = '٠١٢٣٤٥٦٧٨٩';
+  return String(str).replace(/[۰-۹٠-٩]/g, ch=>{
+    const pi = persian.indexOf(ch); if(pi>-1) return pi;
+    const ai = arabic.indexOf(ch); if(ai>-1) return ai;
+    return ch;
+  });
+}
+function parsePrice(p){ return Number(toEnglishDigits(p).replace(/[^\d]/g,''))||0; }
+function onInvoiceCustomerChange(){
+  const custId = document.getElementById('invCustomer').value;
+  const c = appData.sales.customers.find(x=>x.id===custId);
+  document.getElementById('invDiscountLine').textContent = c && c.discount ? `تخفیف مشتری: ${c.discount}%` : '';
+  const loyBlock = document.getElementById('invLoyaltyBlock');
+  document.getElementById('invRedeemPoints').value = '';
+  if(c){
+    loyBlock.classList.remove('hidden');
+    document.getElementById('invLoyaltyBalance').textContent = `موجودی امتیاز ${c.name}: ${c.points||0} امتیاز (هر امتیاز = ${appData.loyalty.redeemValue.toLocaleString('fa-IR')} تومان)`;
+  }else{
+    loyBlock.classList.add('hidden');
+  }
+  updateInvoiceTotal();
+}
+function updateInvoiceTotal(){
+  let total = 0;
+  Object.keys(invoiceCart).forEach(id=>{
+    const qty = invoiceCart[id]; if(!qty) return;
+    const it = appData.menu.items.find(x=>x.id===id); if(!it) return;
+    total += parsePrice(it.price)*qty;
+  });
+  const custId = document.getElementById('invCustomer').value;
+  const c = appData.sales.customers.find(x=>x.id===custId);
+  if(c && c.discount) total = total * (1-c.discount/100);
+  let redeemDiscount = 0;
+  if(c){
+    let redeemPts = Number(document.getElementById('invRedeemPoints').value)||0;
+    redeemPts = Math.min(redeemPts, c.points||0);
+    redeemDiscount = redeemPts * appData.loyalty.redeemValue;
+    redeemDiscount = Math.min(redeemDiscount, total);
+  }
+  total = Math.max(0, total - redeemDiscount);
+  document.getElementById('invTotal').textContent = Math.round(total).toLocaleString('fa-IR')+' تومان';
+  const earnLine = document.getElementById('invPointsEarnLine');
+  if(c){
+    const willEarn = Math.floor(total / appData.loyalty.earnRate);
+    earnLine.textContent = `امتیازی که این خرید می‌گیره: ${willEarn}`;
+  }else{ earnLine.textContent=''; }
+}
+async function saveInvoice(){
+  const items = Object.keys(invoiceCart).filter(id=>invoiceCart[id]>0).map(id=>{
+    const it = appData.menu.items.find(x=>x.id===id);
+    return { id, name:it.name, price:parsePrice(it.price), qty:invoiceCart[id] };
+  });
+  if(!items.length){ toast('حداقل یه آیتم انتخاب کن'); return; }
+  const custId = document.getElementById('invCustomer').value;
+  const c = appData.sales.customers.find(x=>x.id===custId);
+  let total = items.reduce((s,i)=>s+i.price*i.qty,0);
+  if(c && c.discount) total = Math.round(total*(1-c.discount/100));
+  let redeemedPoints = 0;
+  if(c){
+    redeemedPoints = Math.min(Number(document.getElementById('invRedeemPoints').value)||0, c.points||0);
+    const redeemDiscount = Math.min(redeemedPoints*appData.loyalty.redeemValue, total);
+    redeemedPoints = appData.loyalty.redeemValue>0 ? Math.round(redeemDiscount/appData.loyalty.redeemValue) : 0;
+    total = Math.max(0, Math.round(total - redeemDiscount));
+  }
+  const earnedPoints = c ? Math.floor(total/appData.loyalty.earnRate) : 0;
+  const inv = { id:'inv'+Date.now(), customerId:custId||null, customerName:c?c.name:'مشتری آزاد', items, total, redeemedPoints, earnedPoints, date:new Date().toISOString() };
+  appData.sales.invoices.unshift(inv);
+  if(c){
+    c.balance = (c.balance||0)+total;
+    c.points = Math.max(0,(c.points||0)-redeemedPoints)+earnedPoints;
+    c.lifetimePoints = (c.lifetimePoints||0)+earnedPoints;
+  }
+  appData.accounting.cashBox = (appData.accounting.cashBox||0) + (c?0:total); // cash sales add directly; customer-account sales add to balance
+  items.forEach(i=>{ appData.inventory.stock[i.id] = Math.max(0,(appData.inventory.stock[i.id]||0)-i.qty); });
+  invoiceCart = {};
+  logActivity(`ثبت فاکتور: ${inv.customerName} — ${total.toLocaleString('fa-IR')} تومان${c?` (امتیاز: +${earnedPoints}${redeemedPoints?`, استفاده ${redeemedPoints}`:''})`:''}`);
+  await persistData();
+  renderInvoicePicker(); renderCustomers(); renderInvoices(); renderLoyaltyCustomers();
+  document.getElementById('invCustomer').value=''; document.getElementById('invRedeemPoints').value=''; document.getElementById('invLoyaltyBlock').classList.add('hidden');
+  toast('فاکتور ثبت شد');
+}
+function renderInvoices(){
+  const list = document.getElementById('invoicesList');
+  if(!appData.sales.invoices.length){ list.innerHTML='<div class="empty">هنوز فاکتوری ثبت نشده</div>'; return; }
+  list.innerHTML = appData.sales.invoices.map(inv=>`
+    <div class="row">
+      <div class="thumb">🧾</div>
+      <div class="info"><b>${inv.customerName}</b><span>${inv.items.length} قلم · ${new Date(inv.date).toLocaleDateString('fa-IR')}${inv.earnedPoints?` · امتیاز +${inv.earnedPoints}`:''}</span></div>
+      <div class="price">${inv.total.toLocaleString('fa-IR')} تومان</div>
+    </div>`).join('');
+}
+
+/* ---- Loyalty program ---- */
+function renderLoyaltySettings(){
+  document.getElementById('loyEarnRate').value = appData.loyalty.earnRate;
+  document.getElementById('loyRedeemValue').value = appData.loyalty.redeemValue;
+}
+async function saveLoyaltySettings(){
+  const earnRate = Number(document.getElementById('loyEarnRate').value);
+  const redeemValue = Number(document.getElementById('loyRedeemValue').value);
+  if(!earnRate || earnRate<=0 || !redeemValue || redeemValue<=0){ toast('مقادیر رو درست وارد کن'); return; }
+  appData.loyalty.earnRate = earnRate; appData.loyalty.redeemValue = redeemValue;
+  await persistData(); toast('تنظیمات باشگاه ذخیره شد');
+}
+function getTierForPoints(lifetimePoints){
+  const sorted = [...appData.loyalty.tiers].sort((a,b)=>a.minPoints-b.minPoints);
+  let current = sorted[0];
+  sorted.forEach(t=>{ if(lifetimePoints>=t.minPoints) current = t; });
+  return current;
+}
+function renderTiers(){
+  const list = document.getElementById('tiersList');
+  const sorted = [...appData.loyalty.tiers].sort((a,b)=>a.minPoints-b.minPoints);
+  if(!sorted.length){ list.innerHTML='<div class="empty">سطحی تعریف نشده</div>'; return; }
+  list.innerHTML = sorted.map(t=>`
+    <div class="row"><div class="thumb">🏅</div><div class="info"><b>${t.name}</b><span>حداقل ${t.minPoints} امتیاز مجموع</span></div>
+    <div class="actions"><button class="icon-btn del" onclick="deleteTier('${t.id}')">🗑</button></div></div>`).join('');
+}
+async function addTier(){
+  const name = document.getElementById('newTierName').value.trim();
+  const min = Number(document.getElementById('newTierMin').value);
+  if(!name || min<0 || isNaN(min)){ toast('نام و حداقل امتیاز رو درست وارد کن'); return; }
+  appData.loyalty.tiers.push({id:'tier'+Date.now(), name, minPoints:min});
+  document.getElementById('newTierName').value=''; document.getElementById('newTierMin').value='';
+  await persistData(); renderTiers(); renderLoyaltyCustomers(); toast('سطح اضافه شد');
+}
+async function deleteTier(id){
+  if(!confirm('این سطح حذف بشه؟')) return;
+  appData.loyalty.tiers = appData.loyalty.tiers.filter(x=>x.id!==id);
+  await persistData(); renderTiers(); renderLoyaltyCustomers();
+}
+function renderLoyaltyCustomers(){
+  const list = document.getElementById('loyaltyCustomersList');
+  if(!appData.sales.customers.length){ list.innerHTML='<div class="empty">هنوز مشتری‌ای ثبت نشده</div>'; return; }
+  const sorted = [...appData.sales.customers].sort((a,b)=>(b.lifetimePoints||0)-(a.lifetimePoints||0));
+  list.innerHTML = sorted.map(c=>{
+    const tier = getTierForPoints(c.lifetimePoints||0);
+    return `<div class="row"><div class="thumb">🏆</div><div class="info"><b>${c.name}</b><span>سطح ${tier?tier.name:'—'} · مجموع کسب‌شده: ${c.lifetimePoints||0}</span></div><div class="price">${c.points||0} امتیاز</div></div>`;
+  }).join('');
+}
+
+/* ============================================================
+   INVENTORY
+   ============================================================ */
+function initInventoryScreen(){
+  document.querySelectorAll('#inventoryScreen .tab').forEach(t=>{
+    t.onclick = ()=>{
+      document.querySelectorAll('#inventoryScreen .tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('#inventoryScreen [data-ipanel]').forEach(p=>p.style.display = (p.dataset.ipanel===t.dataset.itab)?'block':'none');
+    };
+  });
+  renderStock();
+  const sel = document.getElementById('intakeItem');
+  sel.innerHTML = appData.menu.items.map(it=>`<option value="${it.id}">${it.name}</option>`).join('');
+  renderIntakeLog();
+}
+function renderStock(){
+  const list = document.getElementById('stockList');
+  if(!appData.menu.items.length){ list.innerHTML='<div class="empty">اول از بخش منو، آیتم اضافه کن</div>'; return; }
+  list.innerHTML = appData.menu.items.map(it=>{
+    const qty = appData.inventory.stock[it.id]||0;
+    const low = qty<5;
+    return `<div class="row">
+      <div class="thumb">${it.image?`<img src="${it.image}">`:it.icon}</div>
+      <div class="info"><b>${it.name}</b>${low?`<span style="color:var(--danger);">موجودی کم!</span>`:''}</div>
+      <div class="price" style="color:${low?'var(--danger)':'var(--accent-bright)'};">${qty} عدد</div>
+    </div>`;
+  }).join('');
+}
+function renderIntakeLog(){
+  const list = document.getElementById('intakeList');
+  if(!appData.inventory.intake.length){ list.innerHTML='<div class="empty">هنوز ورود کالایی ثبت نشده</div>'; return; }
+  list.innerHTML = appData.inventory.intake.slice(0,30).map(e=>`
+    <div class="row"><div class="thumb">📦</div><div class="info"><b>${e.itemName}</b><span>${new Date(e.date).toLocaleDateString('fa-IR')}</span></div><div class="price">+${e.qty}</div></div>`).join('');
+}
+async function saveIntake(){
+  const id = document.getElementById('intakeItem').value;
+  const qty = Number(document.getElementById('intakeQty').value);
+  if(!id || !qty || qty<=0){ toast('آیتم و تعداد رو درست وارد کن'); return; }
+  const it = appData.menu.items.find(x=>x.id===id);
+  appData.inventory.stock[id] = (appData.inventory.stock[id]||0)+qty;
+  appData.inventory.intake.unshift({id:'in'+Date.now(), itemId:id, itemName:it.name, qty, date:new Date().toISOString()});
+  document.getElementById('intakeQty').value='';
+  await persistData(); renderStock(); renderIntakeLog(); toast('ورود کالا ثبت شد');
+}
+
+/* ============================================================
+   ORDERS
+   ============================================================ */
+function onOrderPhotoChange(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ document.getElementById('orderPhotoPreview').src=reader.result; document.getElementById('orderPhotoPreview').style.display='block'; document.getElementById('orderPhotoPlaceholder').style.display='none'; };
+  reader.readAsDataURL(file);
+}
+async function saveOrder(){
+  const text = document.getElementById('orderText').value.trim();
+  if(!text){ toast('متن رسید رو بنویس'); return; }
+  const photo = document.getElementById('orderPhotoPreview').style.display==='block' ? document.getElementById('orderPhotoPreview').src : '';
+  appData.orders.list.unshift({id:'o'+Date.now(), text, photo, date:new Date().toISOString()});
+  document.getElementById('orderText').value='';
+  document.getElementById('orderPhotoPreview').style.display='none'; document.getElementById('orderPhotoPlaceholder').style.display='block';
+  await persistData(); renderOrders(); toast('سفارش ثبت شد');
+}
+function renderOrders(){
+  const list = document.getElementById('ordersList');
+  if(!appData.orders.list.length){ list.innerHTML='<div class="empty">هنوز سفارشی ثبت نشده</div>'; return; }
+  list.innerHTML = appData.orders.list.map(o=>`
+    <div class="row">
+      <div class="thumb">${o.photo?`<img src="${o.photo}">`:'🧾'}</div>
+      <div class="info"><b>${o.text.slice(0,40)}${o.text.length>40?'...':''}</b><span>${new Date(o.date).toLocaleString('fa-IR')}</span></div>
+      <div class="actions"><button class="icon-btn del" onclick="deleteOrder('${o.id}')">🗑</button></div>
+    </div>`).join('');
+}
+async function deleteOrder(id){
+  if(!confirm('حذف بشه؟ (قابل بازگردانی از سطل زباله)')) return;
+  const o = appData.orders.list.find(x=>x.id===id);
+  pushTrash('order', o);
+  logActivity(`حذف سفارش`);
+  appData.orders.list = appData.orders.list.filter(x=>x.id!==id);
+  await persistData(); renderOrders();
+}
+
+/* ============================================================
+   ACCOUNTING
+   ============================================================ */
+function initAccountingScreen(){
+  document.querySelectorAll('#accountingScreen .tab').forEach(t=>{
+    t.onclick = ()=>{
+      document.querySelectorAll('#accountingScreen .tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('#accountingScreen [data-apanel]').forEach(p=>p.style.display = (p.dataset.apanel===t.dataset.atab)?'block':'none');
+      if(t.dataset.atab==='report') renderReport();
+      if(t.dataset.atab==='debts') renderDebts();
+    };
+  });
+  renderCashBox(); renderExpenses(); renderRecurring();
+}
+function renderCashBox(){ document.getElementById('cashBoxAmount').textContent = Math.round(appData.accounting.cashBox||0).toLocaleString('fa-IR')+' تومان'; }
+async function adjustCash(dir){
+  const amt = Number(prompt(dir==='in'?'مبلغ واریزی:':'مبلغ برداشتی:'))||0;
+  if(amt<=0) return;
+  appData.accounting.cashBox = (appData.accounting.cashBox||0) + (dir==='in'?amt:-amt);
+  await persistData(); renderCashBox(); toast('صندوق به‌روزرسانی شد');
+}
+function openExpenseModal(){ document.getElementById('expAmount').value=''; document.getElementById('expNote').value=''; document.getElementById('expenseOverlay').classList.add('open'); }
+async function saveExpense(){
+  const amount = Number(document.getElementById('expAmount').value);
+  if(!amount || amount<=0){ toast('مبلغ رو درست وارد کن'); return; }
+  const exp = { id:'e'+Date.now(), category:document.getElementById('expCat').value, amount, note:document.getElementById('expNote').value.trim(), date:new Date().toISOString() };
+  appData.accounting.expenses.unshift(exp);
+  appData.accounting.cashBox = (appData.accounting.cashBox||0)-amount;
+  logActivity(`ثبت هزینه: ${exp.category} — ${amount.toLocaleString('fa-IR')} تومان`);
+  await persistData(); renderExpenses(); renderCashBox(); closeModal('expenseOverlay'); toast('هزینه ثبت شد');
+}
+function renderExpenses(){
+  const list = document.getElementById('expensesList');
+  if(!appData.accounting.expenses.length){ list.innerHTML='<div class="empty">هنوز هزینه‌ای ثبت نشده</div>'; return; }
+  list.innerHTML = appData.accounting.expenses.map(e=>`
+    <div class="row"><div class="thumb">🧾</div><div class="info"><b>${e.category}</b><span>${e.note||''} · ${new Date(e.date).toLocaleDateString('fa-IR')}</span></div><div class="price" style="color:var(--danger);">-${e.amount.toLocaleString('fa-IR')}</div></div>`).join('');
+}
+async function addRecurring(){
+  const cat = document.getElementById('recurCat').value;
+  const amount = Number(document.getElementById('recurAmount').value);
+  if(!amount||amount<=0){ toast('مبلغ رو وارد کن'); return; }
+  appData.accounting.recurring.push({id:'rec'+Date.now(), category:cat, amount});
+  document.getElementById('recurAmount').value='';
+  await persistData(); renderRecurring(); toast('اضافه شد');
+}
+function renderRecurring(){
+  const list = document.getElementById('recurringList');
+  if(!appData.accounting.recurring.length){ list.innerHTML='<div class="empty" style="padding:.8rem;">چیزی ثبت نشده</div>'; return; }
+  list.innerHTML = appData.accounting.recurring.map(r=>`
+    <div class="row"><div class="thumb">🔁</div><div class="info"><b>${r.category}</b><span>${r.amount.toLocaleString('fa-IR')} تومان/ماه</span></div>
+    <div class="actions"><button class="icon-btn" onclick="applyRecurring('${r.id}')">ثبت این ماه</button></div></div>`).join('');
+}
+async function applyRecurring(id){
+  const r = appData.accounting.recurring.find(x=>x.id===id);
+  appData.accounting.expenses.unshift({id:'e'+Date.now(), category:r.category, amount:r.amount, note:'هزینه تکرارشونده', date:new Date().toISOString()});
+  appData.accounting.cashBox = (appData.accounting.cashBox||0)-r.amount;
+  await persistData(); renderExpenses(); renderCashBox(); toast('این ماه ثبت شد');
+}
+function renderReport(){
+  const income = appData.sales.invoices.reduce((s,i)=>s+i.total,0);
+  const expenses = appData.accounting.expenses.reduce((s,e)=>s+e.amount,0);
+  document.getElementById('repIncome').textContent = income.toLocaleString('fa-IR')+' تومان';
+  document.getElementById('repExpenses').textContent = expenses.toLocaleString('fa-IR')+' تومان';
+  document.getElementById('repProfit').textContent = (income-expenses).toLocaleString('fa-IR')+' تومان';
+}
+function downloadAccountingReport(){
+  const income = appData.sales.invoices.reduce((s,i)=>s+i.total,0);
+  const expenses = appData.accounting.expenses.reduce((s,e)=>s+e.amount,0);
+  let txt = `گزارش حسابداری — ${appData.menu.cafeName}\nتاریخ: ${new Date().toLocaleString('fa-IR')}\n\n`;
+  txt += `درآمد کل: ${income.toLocaleString('fa-IR')} تومان\nهزینه کل: ${expenses.toLocaleString('fa-IR')} تومان\nسود/زیان: ${(income-expenses).toLocaleString('fa-IR')} تومان\n\n--- هزینه‌ها ---\n`;
+  appData.accounting.expenses.forEach(e=>{ txt += `${new Date(e.date).toLocaleDateString('fa-IR')} — ${e.category}: ${e.amount.toLocaleString('fa-IR')} تومان ${e.note?'('+e.note+')':''}\n`; });
+  txt += `\n--- فاکتورهای فروش ---\n`;
+  appData.sales.invoices.forEach(i=>{ txt += `${new Date(i.date).toLocaleDateString('fa-IR')} — ${i.customerName}: ${i.total.toLocaleString('fa-IR')} تومان\n`; });
+  const blob = new Blob([txt],{type:'text/plain'});
+  const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='گزارش-حسابداری.txt'; a.click(); URL.revokeObjectURL(url);
+}
+function downloadAccountingCSV(){
+  let csv = 'نوع,تاریخ,دسته/مشتری,مبلغ,توضیح\n';
+  appData.accounting.expenses.forEach(e=>{ csv += `هزینه,${new Date(e.date).toLocaleDateString('fa-IR')},${e.category},${e.amount},"${(e.note||'').replace(/"/g,"'")}"\n`; });
+  appData.sales.invoices.forEach(i=>{ csv += `فروش,${new Date(i.date).toLocaleDateString('fa-IR')},${i.customerName},${i.total},"${i.items.length} قلم"\n`; });
+  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'});
+  const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='گزارش-حسابداری.csv'; a.click(); URL.revokeObjectURL(url);
+}
+function renderDebts(){
+  const list = document.getElementById('debtsList');
+  const debtors = appData.sales.customers.filter(c=>(c.balance||0)>0);
+  if(!debtors.length){ list.innerHTML='<div class="empty">هیچ مشتری بدهکاری نیست</div>'; return; }
+  list.innerHTML = debtors.map(c=>`
+    <div class="row"><div class="thumb">👤</div><div class="info"><b>${c.name}</b><span>${c.phone||''}</span></div><div class="price" style="color:var(--danger);">${c.balance.toLocaleString('fa-IR')} تومان</div></div>`).join('');
+}
+
+/* ============================================================
+   CALCULATOR
+   ============================================================ */
+let calcExpr = '';
+function updateCalcDisplay(){ document.getElementById('calcDisplay').textContent = calcExpr || '0'; }
+function calcInput(v){
+  if(v==='C'){ calcExpr=''; updateCalcDisplay(); return; }
+  if(v==='='){
+    try{ const result = Function('"use strict";return ('+calcExpr.replace(/×/g,'*').replace(/÷/g,'/')+')')(); calcExpr = String(Math.round(result*10000)/10000); }
+    catch(e){ calcExpr = 'خطا'; }
+    updateCalcDisplay(); return;
+  }
+  calcExpr += v; updateCalcDisplay();
+}
+
+/* ============================================================
+   GAMES
+   ============================================================ */
+let guessTarget = null, guessAttempts = 0;
+function newGuessGame(){
+  guessTarget = Math.floor(Math.random()*100)+1; guessAttempts=0;
+  document.getElementById('guessInput').value='';
+  document.getElementById('guessFeedback').textContent = 'یه عدد حدس بزن!';
+}
+function makeGuess(){
+  const val = Number(document.getElementById('guessInput').value);
+  if(!val){ toast('یه عدد وارد کن'); return; }
+  guessAttempts++;
+  const fb = document.getElementById('guessFeedback');
+  if(val===guessTarget){ fb.textContent = `آفرین! درست حدس زدی (${guessAttempts} تلاش) 🎉`; }
+  else if(val<guessTarget){ fb.textContent = 'بزرگ‌تر بگو ⬆️'; }
+  else{ fb.textContent = 'کوچیک‌تر بگو ⬇️'; }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+(async function init(){
+  await loadAll();
+  applyTheme();
+  const hasSession = await checkSession();
+  if(hasSession){
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('roleOwnerBtn').classList.toggle('active', currentRole==='owner');
+    document.getElementById('roleStaffBtn').classList.toggle('active', currentRole==='staff');
+    showDash();
+    resetInactivityTimer();
+  }
+})();
+</script>
+</body>
+</html>
