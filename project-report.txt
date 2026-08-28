@@ -1,0 +1,3435 @@
+CAFEAPP PROJECT SCAN
+====================
+
+PROJECT ROOT:
+F:\cafeapp
+
+GENERATED:
+2026-08-28T18:24:22.316Z
+
+TOTAL FILES:
+687
+
+CODE FILES:
+540
+
+IMPORTANT FILES
+----------------
+backups/categories-management/preload.js
+backups/inventory-management/preload.js
+backups/products-management/preload.js
+backups/products-ui/preload.js
+cafe/electron/main.js
+cafe/electron/preload.js
+cafe/package.json
+cafe/src/App.jsx
+cafe/src/main.jsx
+electron/main.js
+electron/preload.js
+package.json
+plugins/sample-plugin/main.js
+src/app/App.jsx
+src/App.jsx
+src/main.jsx
+
+FILE CONNECTIONS
+----------------
+
+FILE: backups/categories-management/ipc-index.js
+  REQUIRES:
+    ./expenses
+    ./customer-settlement
+    ./expense-lookups
+    ./products
+    ./supplier-settlement
+    ./purchasing
+    ./expense-query
+    ./customers
+    ./suppliers
+    ./cash
+    ./sales
+    ./sales-edit
+    ./sales-edit-draft
+    ./tax
+    ./sales-return
+
+FILE: backups/categories-management/preload.js
+  REQUIRES:
+    electron
+  IPC:
+    products:create
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+    products:categories
+    products:units
+    products:warehouses
+    expenses:create
+    expenses:get
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+    expenses:list
+    expenses:count
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+    customer-settlement:settle
+    cash:list
+    cash:get
+    cash:balance
+    cash:summary
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+    tax:list-rates
+    sales-return:create
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:count
+    purchasing:invoices:get
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+    sales-edit:create-draft
+    sales-edit:apply
+    sales-edit-draft:save
+
+FILE: backups/inventory-management/ipc-index.js
+  REQUIRES:
+    ./expenses
+    ./customer-settlement
+    ./categories
+    ./expense-lookups
+    ./products
+    ./supplier-settlement
+    ./purchasing
+    ./expense-query
+    ./customers
+    ./suppliers
+    ./cash
+    ./sales
+    ./sales-edit
+    ./sales-edit-draft
+    ./tax
+    ./sales-return
+
+FILE: backups/inventory-management/pageRegistry.js
+  IMPORTS:
+    ../modules/dashboard/pages/DashboardPage
+    ../modules/expenses/pages/ExpensesPage
+    ../modules/products/pages/ProductsPage
+    ../modules/categories/pages/CategoriesPage
+    ../modules/cash/pages/CashPage
+    ../modules/invoice-management/pages/InvoiceManagementPage
+    ../modules/theme/pages/ThemePage
+    ../modules/suppliers/pages/SupplierSettlementsPage
+    ../modules/purchasing/pages/SupplierRefundPage
+    ../modules/suppliers/pages/SuppliersPage
+    ../modules/sales/pages/SalesPage
+    ../modules/sales/pages/SalesInvoicesPage
+    ./ModulePlaceholder
+    ../modules/purchasing/pages/PurchasingPage
+    ../modules/sales/pages/customer-settlements/CustomerSettlementsPage
+    ../modules/purchasing/pages/PurchaseReturnPage
+    ../modules/sales/pages/sales-return/SalesReturnPage
+    ../modules/customers/pages/CustomersPage
+
+FILE: backups/inventory-management/preload.js
+  REQUIRES:
+    electron
+  IPC:
+    products:create
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+    products:categories
+    products:units
+    products:warehouses
+    categories:create
+    categories:update
+    categories:get
+    categories:list
+    categories:count
+    categories:set-active
+    categories:delete
+    expenses:create
+    expenses:get
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+    expenses:list
+    expenses:count
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+    customer-settlement:settle
+    cash:list
+    cash:get
+    cash:balance
+    cash:summary
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+    tax:list-rates
+    sales-return:create
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:count
+    purchasing:invoices:get
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+    sales-edit:create-draft
+    sales-edit:apply
+    sales-edit-draft:save
+
+FILE: backups/products-management/ipc-index.js
+  REQUIRES:
+    ./expenses
+    ./customer-settlement
+    ./expense-lookups
+    ./supplier-settlement
+    ./purchasing
+    ./expense-query
+    ./customers
+    ./suppliers
+    ./cash
+    ./sales
+    ./sales-edit
+    ./sales-edit-draft
+    ./tax
+    ./sales-return
+
+FILE: backups/products-management/preload.js
+  REQUIRES:
+    electron
+  IPC:
+    expenses:create
+    expenses:get
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+    expenses:list
+    expenses:count
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+    customer-settlement:settle
+    cash:list
+    cash:get
+    cash:balance
+    cash:summary
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+    tax:list-rates
+    sales-return:create
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:count
+    purchasing:invoices:get
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+    sales-edit:create-draft
+    sales-edit:apply
+    sales-edit-draft:save
+
+FILE: backups/products-ui/ipc-index.js
+  REQUIRES:
+    ./expenses
+    ./customer-settlement
+    ./expense-lookups
+    ./products
+    ./supplier-settlement
+    ./purchasing
+    ./expense-query
+    ./customers
+    ./suppliers
+    ./cash
+    ./sales
+    ./sales-edit
+    ./sales-edit-draft
+    ./tax
+    ./sales-return
+
+FILE: backups/products-ui/pageRegistry.js
+  IMPORTS:
+    ../modules/dashboard/pages/DashboardPage
+    ../modules/expenses/pages/ExpensesPage
+    ../modules/cash/pages/CashPage
+    ../modules/invoice-management/pages/InvoiceManagementPage
+    ../modules/theme/pages/ThemePage
+    ../modules/suppliers/pages/SupplierSettlementsPage
+    ../modules/purchasing/pages/SupplierRefundPage
+    ../modules/suppliers/pages/SuppliersPage
+    ../modules/sales/pages/SalesPage
+    ../modules/sales/pages/SalesInvoicesPage
+    ./ModulePlaceholder
+    ../modules/purchasing/pages/PurchasingPage
+    ../modules/sales/pages/customer-settlements/CustomerSettlementsPage
+    ../modules/purchasing/pages/PurchaseReturnPage
+    ../modules/sales/pages/sales-return/SalesReturnPage
+    ../modules/customers/pages/CustomersPage
+
+FILE: backups/products-ui/preload.js
+  REQUIRES:
+    electron
+  IPC:
+    products:create
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+    expenses:create
+    expenses:get
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+    expenses:list
+    expenses:count
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+    customer-settlement:settle
+    cash:list
+    cash:get
+    cash:balance
+    cash:summary
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+    tax:list-rates
+    sales-return:create
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:count
+    purchasing:invoices:get
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+    sales-edit:create-draft
+    sales-edit:apply
+    sales-edit-draft:save
+
+FILE: backups/products-ui/product-management.service.js
+  REQUIRES:
+    ../core/connection
+    ./product.service
+    ../validation/product-management.validation
+    ../repositories/product.repository
+    ../repositories/product-management.repository
+
+FILE: backups/products-ui/products-ipc.js
+  REQUIRES:
+    ../../../database/services/product-management.service
+  IPC:
+    products:create
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+
+FILE: backups/theme-before-icons/DashboardPage.jsx
+  IMPORTS:
+    react
+    ./DashboardPage.css
+
+FILE: backups/theme-before-icons/MainLayout.jsx
+  IMPORTS:
+    react
+    ../app/menuConfig
+    ./MainLayout.css
+
+FILE: backups/theme-before-theme-studio/MainLayout.jsx
+  IMPORTS:
+    react
+    ../app/menuConfig
+    ./MainLayout.css
+
+FILE: cafe/database/database.js
+  REQUIRES:
+    better-sqlite3
+    path
+    fs
+
+FILE: cafe/database/sales.js
+  REQUIRES:
+    ./database
+
+FILE: cafe/database/schema.js
+  REQUIRES:
+    ./database
+
+FILE: cafe/electron/main - Copy.js
+  REQUIRES:
+    electron
+    path
+    ../database/database
+  IPC:
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-system-printers
+    print-sale
+    open-loyalty-window
+    open-sales-window
+
+FILE: cafe/electron/main.js
+  REQUIRES:
+    electron
+    path
+    ../database/database
+  IPC:
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-system-printers
+    print-sale
+    open-loyalty-window
+    open-sales-window
+
+FILE: cafe/electron/preload - Copy.js
+  REQUIRES:
+    electron
+  IPC:
+    open-loyalty-window
+    open-sales-window
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-system-printers
+    print-sale
+
+FILE: cafe/electron/preload.js
+  REQUIRES:
+    electron
+  IPC:
+    open-loyalty-window
+    open-sales-window
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-system-printers
+    print-sale
+
+FILE: cafe/services/categoryService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/ingredientService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/priceHistoryService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/priceService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/printerService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/printRouteService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/printSettingsService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/productService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/recipeItemService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/recipeService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/services/unitService.js
+  REQUIRES:
+    ../database/database
+
+FILE: cafe/src/App.jsx
+  IMPORTS:
+    react
+    ./layout/MainLayout
+    ./modules/dashboard/Dashboard
+    ./modules/loyalty
+    ./modules/sales
+
+FILE: cafe/src/layout/MainLayout - Copy.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    openLoyaltyWindow
+
+FILE: cafe/src/layout/MainLayout.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    openLoyaltyWindow
+    openSalesWindow
+
+FILE: cafe/src/main.jsx
+  IMPORTS:
+    react
+    react-dom/client
+    ./App
+
+FILE: cafe/src/modules/dashboard/Dashboard - Copy.jsx
+  IMPORTS:
+    react
+
+FILE: cafe/src/modules/dashboard/Dashboard.jsx
+  IMPORTS:
+    react
+
+FILE: cafe/src/modules/loyalty/index - Copy.jsx
+  IMPORTS:
+    react
+
+FILE: cafe/src/modules/loyalty/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: cafe/src/modules/pos/index.jsx
+  IMPORTS:
+    ./POS
+
+FILE: cafe/src/modules/pos/NewSale.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    getSaleById
+    saveSale
+
+FILE: cafe/src/modules/pos/POS - Copy.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+
+FILE: cafe/src/modules/pos/POS.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+    getProductSalesDetails
+
+FILE: cafe/src/modules/sales/index.jsx
+  IMPORTS:
+    ./POS
+
+FILE: cafe/src/modules/sales/New folder/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    saveSale
+    getSaleById
+    printSale
+    getSystemPrinters
+    getSalesReport
+    getProductsSalesReport
+
+FILE: cafe/src/modules/sales/POS.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+
+FILE: cafe/vite.config.js
+  REQUIRES:
+    vite
+    @vitejs/plugin-react
+
+FILE: database/accounting.js
+  REQUIRES:
+    ./database
+
+FILE: database/core/connection.js
+  REQUIRES:
+    better-sqlite3
+    fs
+    path
+
+FILE: database/core/migrations.js
+  REQUIRES:
+    fs
+    path
+
+FILE: database/init.js
+  REQUIRES:
+    ./schema
+    ./accounting
+
+FILE: database/ok/database.js
+  REQUIRES:
+    better-sqlite3
+    path
+    fs
+
+FILE: database/ok/init.js
+  REQUIRES:
+    ./database
+
+FILE: database/ok/schema.js
+  REQUIRES:
+    ./database
+
+FILE: database/personnel - Copy.js
+  REQUIRES:
+    ./database
+
+FILE: database/personnel.js
+  REQUIRES:
+    ./database
+
+FILE: database/purchases.js
+  REQUIRES:
+    ./database
+
+FILE: database/repositories/product.repository.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/repositories/purchase-return.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/purchase-return.validation
+    ../repositories/purchase-return.repository
+    ../repositories/purchase.repository
+    ./unit-conversion.service
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/sales.js
+  REQUIRES:
+    ./database
+
+FILE: database/schema - Copy (2).js
+  REQUIRES:
+    ./database
+
+FILE: database/schema - Copy.js
+  REQUIRES:
+    ./database
+
+FILE: database/schema.js
+  REQUIRES:
+    ./core/connection
+    ./schema_core
+    ./schema_financial
+    ./schema_inventory
+    ./schema_customers
+    ./schema_users
+    ./core/migrations
+    ./schema_recipe
+    ./schema_sales
+    ./schema_purchasing
+
+FILE: database/seed/categories_seed.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/seed/initial_data.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/seed/product_base_seed.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/seed/users_seed.js
+  REQUIRES:
+    crypto
+    ../core/connection
+
+FILE: database/services/accounting.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/accounting.validation
+    ../repositories/accounting.repository
+
+FILE: database/services/audit.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/audit.validation
+    ../repositories/audit.repository
+
+FILE: database/services/authorization.service - Copy.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/authorization.service.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/backup.service.js
+  REQUIRES:
+    fs
+    path
+    better-sqlite3
+    ../core/connection
+    ../core/migrations
+    ../validation/backup.validation
+    ./audit.service
+
+FILE: database/services/bank.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/bank.validation
+    ../repositories/bank.repository
+    ../repositories/accounting.repository
+    ./accounting.service
+    ./audit.service
+
+FILE: database/services/cash.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/cash.validation
+    ../repositories/cash.repository
+    ../repositories/accounting.repository
+    ./accounting.service
+    ./audit.service
+    ../repositories/bank.repository
+
+FILE: database/services/category-management.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/category-management.validation
+    ../repositories/category-management.repository
+
+FILE: database/services/customer-club.service - Copy.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/customer-club.repository
+    ./reports.service
+    ./accounting.service
+
+FILE: database/services/customer-club.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/customer-club.repository
+    ./reports.service
+    ./accounting.service
+    ./customer-loyalty.service
+
+FILE: database/services/customer-loyalty.service - Copy.js
+  REQUIRES:
+    ../repositories/customer.repository
+    ../core/connection
+
+FILE: database/services/customer-loyalty.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/customer.repository
+
+FILE: database/services/customer-management.service.js
+  REQUIRES:
+    ../core/connection
+    ./customer.service
+    ../validation/customer-management.validation
+    ../repositories/customer-management.repository
+
+FILE: database/services/customer-settlement.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/customer-settlement.validation
+    ../repositories/customer-settlement.repository
+    ./accounting.service
+
+FILE: database/services/customer.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/customer.validation
+    ../repositories/customer.repository
+
+FILE: database/services/expense-lookup.service.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/expense-query.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/expense.repository
+    ../validation/expense-query.validation
+
+FILE: database/services/expense.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/expense.validation
+    ../repositories/expense.repository
+    ../repositories/accounting.repository
+    ./accounting.service
+    ./audit.service
+
+FILE: database/services/inventory-management.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/inventory-management.validation
+    ../repositories/inventory-management.repository
+
+FILE: database/services/inventory-transfer.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/inventory-transfer.validation
+    ../repositories/inventory.repository
+    ./inventory.service
+    ../repositories/inventory-transfer.repository
+
+FILE: database/services/inventory.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/inventory.validation
+    ../repositories/inventory.repository
+
+FILE: database/services/pos-query.service.js
+  REQUIRES:
+    ../core/connection
+    ./tax.service
+
+FILE: database/services/printing.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/printing.validation
+    ../repositories/printing.repository
+    ./audit.service
+
+FILE: database/services/product-management.service.js
+  REQUIRES:
+    ../core/connection
+    ./product.service
+    ../validation/product-management.validation
+    ../repositories/product.repository
+    ../repositories/product-management.repository
+
+FILE: database/services/product.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/product.validation
+    ../repositories/product.repository
+
+FILE: database/services/purchase-cancel.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/purchase-cancel.validation
+    ../repositories/purchase-cancel.repository
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/services/purchase-query.service.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/purchase-return.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/purchase-return.validation
+    ../repositories/purchase-return.repository
+    ../repositories/purchase.repository
+    ./unit-conversion.service
+    ./supplier-refund.service
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/services/purchase.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/purchase.validation
+    ../repositories/purchase.repository
+    ./unit-conversion.service
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/services/recipe-consumption.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/recipe.repository
+    ./unit-conversion.service
+    ./inventory.service
+
+FILE: database/services/recipe.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/recipe.validation
+    ../repositories/recipe.repository
+
+FILE: database/services/reports.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/reports.validation
+    ../repositories/reports.repository
+
+FILE: database/services/sales-accounting.service.js
+  REQUIRES:
+    ./accounting.service
+
+FILE: database/services/sales-calculation.service.js
+  REQUIRES:
+    ../repositories/sales.repository
+    ./tax.service
+
+FILE: database/services/sales-cancel.service - Copy.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales-cancel.validation
+    ../repositories/sales-cancel.repository
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/services/sales-cancel.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales-cancel.validation
+    ../repositories/sales-cancel.repository
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/services/sales-customer.service.js
+  REQUIRES:
+    ../repositories/sales.repository
+
+FILE: database/services/sales-invoice-edit-draft.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/sales.repository
+    ./sales-calculation.service
+    ./audit.service
+
+FILE: database/services/sales-invoice-edit.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/sales.repository
+    ./audit.service
+
+FILE: database/services/sales-invoice-revision.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/sales.repository
+    ../repositories/sales-cancel.repository
+    ./sales-calculation.service
+    ./sales-payment.service
+    ./sales-customer.service
+    ./sales-accounting.service
+    ./sales.service.new
+    ./sales-cancel.service
+    ./audit.service
+
+FILE: database/services/sales-invoices.service.js
+  REQUIRES:
+    ../core/connection
+    ../repositories/sales.repository
+
+FILE: database/services/sales-payment.service.js
+  REQUIRES:
+    ../repositories/sales.repository
+
+FILE: database/services/sales-return.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales-return.validation
+    ../repositories/sales.repository
+    ../repositories/inventory.repository
+    ./inventory.service
+    ./accounting.service
+
+FILE: database/services/sales.service - backup.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales.validation
+    ../repositories/sales.repository
+    ./unit-conversion.service
+    ./inventory.service
+    ./recipe-consumption.service
+    ./accounting.service
+
+FILE: database/services/sales.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales.validation
+    ../repositories/sales.repository
+    ./unit-conversion.service
+    ./inventory.service
+    ./recipe-consumption.service
+    ./accounting.service
+    ./customer-loyalty.service
+
+FILE: database/services/sales.service.new - Copy.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales.validation
+    ../repositories/sales.repository
+    ./sales-calculation.service
+    ./sales-customer.service
+    ./sales-payment.service
+    ./sales-accounting.service
+    ./unit-conversion.service
+    ./inventory.service
+    ./recipe-consumption.service
+
+FILE: database/services/sales.service.new.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales.validation
+    ../repositories/sales.repository
+    ./sales-calculation.service
+    ./sales-customer.service
+    ./sales-payment.service
+    ./sales-accounting.service
+    ./unit-conversion.service
+    ./inventory.service
+    ./recipe-consumption.service
+
+FILE: database/services/settings.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/settings.validation
+    ../repositories/settings.repository
+    ./audit.service
+
+FILE: database/services/stocktake.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/stocktake.validation
+    ../repositories/inventory.repository
+    ./inventory.service
+    ../repositories/stocktake.repository
+
+FILE: database/services/supplier-management.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/supplier-management.validation
+    ../repositories/supplier-management.repository
+
+FILE: database/services/supplier-query.service.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/supplier-refund.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/supplier-refund.validation
+    ../repositories/supplier-refund.repository
+    ../repositories/supplier-settlement.repository
+    ./accounting.service
+
+FILE: database/services/supplier-settlement.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/supplier-settlement.validation
+    ../repositories/supplier-settlement.repository
+    ./accounting.service
+
+FILE: database/services/supplier.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/supplier.validation
+    ../repositories/supplier.repository
+
+FILE: database/services/tax.service.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/unit-conversion.service.js
+  REQUIRES:
+    ../core/connection
+
+FILE: database/services/warehouse.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/warehouse.validation
+    ../repositories/warehouse.repository
+    ../repositories/accounting.repository
+
+FILE: electron/accounting-ipc.js
+  REQUIRES:
+    electron
+    ../database/accounting
+  IPC:
+    settings-get
+    settings-save
+    card-terminals-list
+    card-terminal-save
+    card-terminal-delete
+    warehouses-list
+    warehouse-save
+    stock-movement-add
+    stock-summary
+    inventory-movements-list
+    inventory-items-search
+    inventory-transfer
+    inventory-report
+    cash-registers-list
+    cash-register-save
+    cash-session-open
+    cash-transaction-add
+    cash-session-close
+    cash-summary
+    account-list
+    account-save
+    journal-list
+    journal-get
+    journal-create
+    trial-balance
+    profit-loss
+    account-ledger
+    accounting-dashboard
+
+FILE: electron/ipc/accounting/index.js
+  REQUIRES:
+    ../../../database/services/accounting.service
+  IPC:
+    accounting:accounts
+    accounting:entries
+    accounting:entry
+    accounting:create-entry
+
+FILE: electron/ipc/backup/index - Copy.js
+  REQUIRES:
+    electron
+    ../../../database/services/backup.service
+  IPC:
+    backup:integrity
+    backup:directory
+    backup:list
+    backup:create
+    backup:select-file
+    backup:restore
+
+FILE: electron/ipc/backup/index.js
+  REQUIRES:
+    electron
+    ../../../database/services/backup.service
+  IPC:
+    backup:integrity
+    backup:directory
+    backup:list
+    backup:create
+    backup:select-file
+    backup:restore
+
+FILE: electron/ipc/bank/index.js
+  REQUIRES:
+    electron
+    ../../../database/services/bank.service
+  IPC:
+    bank:list
+    bank:get
+    bank:delete
+    bank:save
+    bank:balance
+    bank:summary
+
+FILE: electron/ipc/cash/index.js
+  REQUIRES:
+    ../../../database/services/cash.service
+  IPC:
+    cash:list
+    cash:get
+    cash:save
+    cash:delete
+    cash:balance
+    cash:summary
+
+FILE: electron/ipc/categories/index.js
+  REQUIRES:
+    ../../../database/services/category-management.service
+  IPC:
+    categories:create
+    categories:update
+    categories:get
+    categories:list
+    categories:count
+    categories:set-active
+    categories:delete
+
+FILE: electron/ipc/customer-club/index.js
+  REQUIRES:
+    ../../../database/services/customer-club.service
+    ../../../database/services/customer-loyalty.service
+  IPC:
+    customer-club:get
+    customer-club:ledger
+    customer-club:deposit
+    customer-club:loyalty-management
+    customer-club:level-create
+    customer-club:level-update
+    customer-club:reward-create
+    customer-club:reward-update
+    customer-club:reward-redeem
+    customer-club:loyalty-profile
+    customer-club:points-spend
+    customer-club:points-adjust
+
+FILE: electron/ipc/customer-settlement/index.js
+  REQUIRES:
+    ../../../database/services/customer-settlement.service
+  IPC:
+    customer-settlement:settle
+
+FILE: electron/ipc/customers/index.js
+  REQUIRES:
+    ../../../database/services/customer-management.service
+  IPC:
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+
+FILE: electron/ipc/expense-lookups.js
+  REQUIRES:
+    ../../database/services/expense-lookup.service
+  IPC:
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+
+FILE: electron/ipc/expense-query.js
+  REQUIRES:
+    ../../database/services/expense-query.service
+  IPC:
+    expenses:list
+    expenses:count
+
+FILE: electron/ipc/expenses.js
+  REQUIRES:
+    ../../database/services/expense.service
+  IPC:
+    expenses:create
+    expenses:get
+
+FILE: electron/ipc/index.js
+  REQUIRES:
+    ./expenses
+    ./reports
+    ./accounting
+    ./bank
+    ./customer-settlement
+    ./customer-club
+    ./users
+    ./backup
+    ./categories
+    ./inventory-transfer
+    ./expense-lookups
+    ./recipes
+    ./inventory
+    ./products
+    ./supplier-settlement
+    ./purchasing
+    ./expense-query
+    ./customers
+    ./suppliers
+    ./cash
+    ./sales
+    ./sales-edit
+    ./sales-edit-draft
+    ./tax
+    ./sales-return
+    ./warehouses
+    ./stocktakes
+    ./printing
+
+FILE: electron/ipc/inventory/index.js
+  REQUIRES:
+    ../../../database/services/inventory-management.service
+  IPC:
+    inventory:balances
+    inventory:balances-count
+    inventory:movements
+    inventory:movements-count
+
+FILE: electron/ipc/inventory-transfer/index.js
+  REQUIRES:
+    ../../../database/services/inventory-transfer.service
+  IPC:
+    inventory-transfer:create
+    inventory-transfer:get
+    inventory-transfer:list
+    inventory-transfer:count
+    inventory-transfer:delete
+
+FILE: electron/ipc/printing/index.js
+  REQUIRES:
+    ../../../database/services/printing.service
+    electron
+    ../../../database/services/sales-invoices.service
+  IPC:
+    printing:printers:list
+    printing:printers:save
+    printing:profiles:list
+    printing:profiles:save
+    printing:profiles:default
+    printing:templates:list
+    printing:templates:save
+    printing:routes:list
+    printing:routes:save
+    printing:routes:resolve
+    printing:settings:list
+    printing:settings:save
+    printing:footer-messages:list
+    printing:footer-messages:random
+    printing:jobs:create
+    printing:jobs:get
+    printing:jobs:list
+    printing:jobs:count
+    printing:invoices:print
+    printing:jobs:update-status
+
+FILE: electron/ipc/products/index.js
+  REQUIRES:
+    ../../../database/services/product-management.service
+  IPC:
+    products:create
+    products:categories
+    products:units
+    products:warehouses
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+
+FILE: electron/ipc/purchasing/index.js
+  REQUIRES:
+    ../../../database/services/purchase.service
+    ../../../database/services/purchase-return.service
+    ../../../database/services/supplier-refund.service
+    ../../../database/services/purchase-query.service
+  IPC:
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:get
+    purchasing:invoices:count
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+
+FILE: electron/ipc/recipes/index.js
+  REQUIRES:
+    ../../../database/services/recipe.service
+  IPC:
+    recipes:create
+    recipes:get
+    recipes:list
+    recipes:update
+    recipes:activate
+    recipes:deactivate
+
+FILE: electron/ipc/reports.js
+  REQUIRES:
+    electron
+    fs
+    path
+    ../../src/modules/reports/services/management-report.service
+    ../../database/services/reports.service
+  IPC:
+    reports:management
+    reports:trial-balance
+    reports:income-statement
+    reports:balance-sheet
+    reports:general-ledger
+    reports:subsidiary-ledger
+    reports:export
+
+FILE: electron/ipc/sales/index.js
+  REQUIRES:
+    ../../../database/services/sales.service.new
+    ../../../database/services/pos-query.service
+    ../../../database/services/sales-invoices.service
+  IPC:
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+
+FILE: electron/ipc/sales-edit/index.js
+  REQUIRES:
+    ../../../database/services/sales-invoice-edit.service
+    ../../../database/services/sales-invoice-revision.service
+  IPC:
+    sales-edit:create-draft
+    sales-edit:apply
+
+FILE: electron/ipc/sales-edit-draft/index.js
+  REQUIRES:
+    ../../../database/services/sales-invoice-edit-draft.service
+  IPC:
+    sales-edit-draft:save
+
+FILE: electron/ipc/sales-edit-draft.js
+  REQUIRES:
+    ../../database/services/sales-invoice-edit-draft.service
+  IPC:
+    sales-edit-draft:save
+
+FILE: electron/ipc/sales-edit.js
+  REQUIRES:
+    ../../database/services/sales-invoice-edit.service
+    ../../database/services/sales-invoice-revision.service
+  IPC:
+    sales-edit:create-draft
+    sales-edit:apply
+
+FILE: electron/ipc/sales-return/index.js
+  REQUIRES:
+    ../../../database/services/sales-return.service
+  IPC:
+    sales-return:create
+
+FILE: electron/ipc/stocktakes/index.js
+  REQUIRES:
+    ../../../database/services/stocktake.service
+  IPC:
+    stocktakes:create
+    stocktakes:get
+    stocktakes:list
+    stocktakes:count
+    stocktakes:start
+    stocktakes:update-item
+    stocktakes:items
+    stocktakes:complete
+    stocktakes:cancel
+    stocktakes:delete
+
+FILE: electron/ipc/supplier-settlement/index.js
+  REQUIRES:
+    ../../../database/services/supplier-settlement.service
+  IPC:
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+
+FILE: electron/ipc/suppliers/index.js
+  REQUIRES:
+    ../../../database/services/supplier-management.service
+  IPC:
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+
+FILE: electron/ipc/tax/index.js
+  REQUIRES:
+    ../../../database/services/tax.service
+  IPC:
+    tax:list-rates
+
+FILE: electron/ipc/users/index.js
+  REQUIRES:
+    ../../../database/services/authorization.service
+  IPC:
+    users:list
+    users:role-permissions
+    users:set-role-permission
+    users:roles-list
+    users:permissions-list
+    users:permissions
+    users:has-permission
+    users:roles
+    users:access
+    users:assign-role
+    users:remove-role
+
+FILE: electron/ipc/warehouses/index.js
+  REQUIRES:
+    ../../../database/services/warehouse.service
+  IPC:
+    warehouses:create
+    warehouses:update
+    warehouses:get
+    warehouses:list
+    warehouses:count
+    warehouses:branches
+    warehouses:accounts
+    warehouses:set-active
+    warehouses:delete
+
+FILE: electron/main - Copy (2).js
+  REQUIRES:
+    electron
+    path
+    ../database/database
+    ../database/init
+  IPC:
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-dashboard-stats
+    get-system-printers
+    get-print-settings
+    save-print-settings
+    print-sale
+    open-loyalty-window
+    open-sales-window
+
+FILE: electron/main - Copy.js
+  REQUIRES:
+    electron
+    path
+    fs
+    ../database/personnel
+    ../database/database
+    ../database/init
+  IPC:
+    personnel-list
+    personnel-get
+    personnel-save
+    personnel-delete
+    personnel-add-transaction
+    personnel-transactions
+    personnel-report
+    personnel-delete-transaction
+    get-dashboard-stats
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    update-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-system-printers
+    get-print-settings
+    save-print-settings
+    print-sale
+    export-sale-txt
+    export-sale-excel
+    export-sale-word
+    open-loyalty-window
+    open-sales-window
+    select-image-file
+
+FILE: electron/main.js
+  REQUIRES:
+    electron
+    path
+    fs
+    child_process
+    ./ipc
+    ../database/schema
+    http
+
+FILE: electron/ok/main - Copy.js
+  REQUIRES:
+    electron
+    path
+    ../database/personnel
+    ../database/database
+    ../database/init
+  IPC:
+    personnel-list
+    personnel-get
+    personnel-save
+    personnel-delete
+    personnel-add-transaction
+    personnel-transactions
+    personnel-report
+    personnel-delete-transaction
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    update-sale
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-dashboard-stats
+    get-system-printers
+    get-print-settings
+    save-print-settings
+    print-sale
+    open-loyalty-window
+    open-sales-window
+
+FILE: electron/ok/preload - Copy.js
+  REQUIRES:
+    electron
+  IPC:
+    open-loyalty-window
+    open-sales-window
+    personnel-list
+    personnel-get
+    personnel-save
+    personnel-delete
+    personnel-add-transaction
+    personnel-transactions
+    personnel-report
+    personnel-delete-transaction
+    get-dashboard-stats
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    update-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-print-settings
+    save-print-settings
+    get-system-printers
+    print-sale
+    export-sale-txt
+    export-sale-excel
+    export-sale-word
+
+FILE: electron/preload - Copy (2).js
+  REQUIRES:
+    electron
+  IPC:
+    open-loyalty-window
+    open-sales-window
+    personnel-list
+    personnel-get
+    personnel-save
+    personnel-delete
+    personnel-add-transaction
+    personnel-transactions
+    personnel-report
+    personnel-delete-transaction
+    get-dashboard-stats
+    get-sale-products
+    get-all-products
+    save-product
+    delete-product
+    restore-product
+    get-categories
+    save-category
+    delete-category
+    get-sale-customers
+    get-customer-by-id
+    save-customer
+    save-sale
+    get-sales-list
+    get-sale-by-id
+    delete-sale
+    get-sales-report
+    get-products-sales-report
+    get-product-sales-details
+    get-print-settings
+    save-print-settings
+    print-sale
+    export-sale-txt
+    export-sale-excel
+    export-sale-word
+    get-system-printers
+
+FILE: electron/preload - Copy.js
+  REQUIRES:
+    electron
+  IPC:
+    backup:integrity
+    backup:directory
+    backup:list
+    backup:create
+    backup:select-file
+    backup:restore
+    printing:printers:list
+    printing:printers:save
+    printing:system-printers:list
+    printing:profiles:list
+    printing:profiles:save
+    printing:profiles:default
+    printing:templates:list
+    printing:templates:save
+    printing:routes:list
+    printing:routes:save
+    printing:routes:resolve
+    printing:settings:list
+    printing:settings:save
+    printing:footer-messages:list
+    printing:footer-messages:random
+    printing:invoices:print
+    printing:jobs:create
+    printing:jobs:get
+    printing:jobs:list
+    printing:jobs:count
+    printing:jobs:update-status
+    recipes:create
+    recipes:get
+    recipes:list
+    recipes:update
+    recipes:activate
+    recipes:deactivate
+    accounting:accounts
+    accounting:entries
+    accounting:entry
+    accounting:create-entry
+    warehouses:create
+    warehouses:update
+    warehouses:get
+    warehouses:list
+    warehouses:count
+    warehouses:branches
+    warehouses:accounts
+    warehouses:set-active
+    warehouses:delete
+    stocktakes:create
+    stocktakes:get
+    stocktakes:list
+    stocktakes:count
+    stocktakes:start
+    stocktakes:update-item
+    stocktakes:items
+    stocktakes:complete
+    stocktakes:cancel
+    stocktakes:delete
+    inventory-transfer:create
+    inventory-transfer:get
+    inventory-transfer:list
+    inventory-transfer:count
+    inventory-transfer:delete
+    inventory:balances
+    inventory:balances-count
+    inventory:movements
+    inventory:movements-count
+    products:create
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+    products:categories
+    products:units
+    products:warehouses
+    categories:create
+    categories:update
+    categories:get
+    categories:list
+    categories:count
+    categories:set-active
+    categories:delete
+    reports:balance-sheet
+    reports:trial-balance
+    reports:management
+    reports:income-statement
+    reports:general-ledger
+    reports:subsidiary-ledger
+    reports:export
+    expenses:create
+    expenses:get
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+    expenses:list
+    expenses:count
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+    customer-settlement:settle
+    customer-club:get
+    customer-club:ledger
+    customer-club:deposit
+    customer-club:loyalty-management
+    customer-club:level-create
+    customer-club:level-update
+    customer-club:reward-create
+    customer-club:reward-update
+    customer-club:reward-redeem
+    customer-club:loyalty-profile
+    customer-club:points-spend
+    customer-club:points-adjust
+    cash:list
+    cash:get
+    cash:save
+    cash:delete
+    cash:balance
+    cash:summary
+    bank:list
+    bank:get
+    bank:delete
+    bank:save
+    bank:balance
+    bank:summary
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+    tax:list-rates
+    sales-return:create
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:count
+    purchasing:invoices:get
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+    users:list
+    users:roles-list
+    users:permissions-list
+    users:permissions
+    users:has-permission
+    users:roles
+    users:access
+    users:assign-role
+    users:remove-role
+    users:role-permissions
+    users:set-role-permission
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+    sales-edit:create-draft
+    sales-edit:apply
+    sales-edit-draft:save
+
+FILE: electron/preload.js
+  REQUIRES:
+    electron
+  IPC:
+    backup:integrity
+    backup:directory
+    backup:list
+    backup:create
+    backup:select-file
+    backup:restore
+    printing:printers:list
+    printing:printers:save
+    printing:system-printers:list
+    printing:profiles:list
+    printing:profiles:save
+    printing:profiles:default
+    printing:templates:list
+    printing:templates:save
+    printing:routes:list
+    printing:routes:save
+    printing:routes:resolve
+    printing:settings:list
+    printing:settings:save
+    printing:footer-messages:list
+    printing:footer-messages:random
+    printing:invoices:print
+    printing:jobs:create
+    printing:jobs:get
+    printing:jobs:list
+    printing:jobs:count
+    printing:jobs:update-status
+    recipes:create
+    recipes:get
+    recipes:list
+    recipes:update
+    recipes:activate
+    recipes:deactivate
+    accounting:accounts
+    accounting:entries
+    accounting:entry
+    accounting:create-entry
+    warehouses:create
+    warehouses:update
+    warehouses:get
+    warehouses:list
+    warehouses:count
+    warehouses:branches
+    warehouses:accounts
+    warehouses:set-active
+    warehouses:delete
+    stocktakes:create
+    stocktakes:get
+    stocktakes:list
+    stocktakes:count
+    stocktakes:start
+    stocktakes:update-item
+    stocktakes:items
+    stocktakes:complete
+    stocktakes:cancel
+    stocktakes:delete
+    inventory-transfer:create
+    inventory-transfer:get
+    inventory-transfer:list
+    inventory-transfer:count
+    inventory-transfer:delete
+    inventory:balances
+    inventory:balances-count
+    inventory:movements
+    inventory:movements-count
+    products:create
+    products:update
+    products:get
+    products:list
+    products:count
+    products:set-active
+    products:categories
+    products:units
+    products:warehouses
+    categories:create
+    categories:update
+    categories:get
+    categories:list
+    categories:count
+    categories:set-active
+    categories:delete
+    reports:balance-sheet
+    reports:trial-balance
+    reports:management
+    reports:income-statement
+    reports:general-ledger
+    reports:subsidiary-ledger
+    reports:export
+    expenses:create
+    expenses:get
+    expenses:list-accounts
+    expenses:list-cash-registers
+    expenses:list-bank-accounts
+    expenses:list-users
+    expenses:list
+    expenses:count
+    customers:create
+    customers:update
+    customers:get
+    customers:list
+    customers:count
+    customers:set-active
+    suppliers:create
+    suppliers:update
+    suppliers:get
+    suppliers:list
+    suppliers:count
+    suppliers:set-active
+    customer-settlement:settle
+    customer-club:get
+    customer-club:ledger
+    customer-club:deposit
+    customer-club:loyalty-management
+    customer-club:level-create
+    customer-club:level-update
+    customer-club:reward-create
+    customer-club:reward-update
+    customer-club:reward-redeem
+    customer-club:loyalty-profile
+    customer-club:points-spend
+    customer-club:points-adjust
+    cash:list
+    cash:get
+    cash:save
+    cash:delete
+    cash:balance
+    cash:summary
+    bank:list
+    bank:get
+    bank:delete
+    bank:save
+    bank:balance
+    bank:summary
+    supplier-settlement:settle
+    supplier-settlement:get
+    supplier-settlement:list-by-invoice
+    tax:list-rates
+    sales-return:create
+    purchasing:suppliers
+    purchasing:products
+    purchasing:warehouses
+    purchasing:cash-registers
+    purchasing:bank-accounts
+    purchasing:users
+    purchasing:invoices:list
+    purchasing:invoices:count
+    purchasing:invoices:get
+    purchasing:create
+    purchasing:return:create
+    purchasing:refund:receive
+    purchasing:refund:get
+    purchasing:refund:get-by-return
+    purchasing:refund:list-by-supplier
+    users:list
+    users:roles-list
+    users:permissions-list
+    users:permissions
+    users:has-permission
+    users:roles
+    users:access
+    users:assign-role
+    users:remove-role
+    users:role-permissions
+    users:set-role-permission
+    sales:products
+    sales:customers
+    sales:warehouses
+    sales:create
+    sales:invoices:list
+    sales:invoices:count
+    sales:invoices:get
+    sales-edit:create-draft
+    sales-edit:apply
+    sales-edit-draft:save
+
+FILE: plugins/core/pluginCore.js
+  REQUIRES:
+    fs
+    path
+
+FILE: plugins/core/pluginManager.js
+  REQUIRES:
+    fs
+    path
+    crypto
+    ./pluginCore
+    ./pluginMigrations
+    electron
+  IPC:
+    plugins:list
+    plugins:get
+    plugins:choose-directory
+    plugins:install
+    plugins:enable
+    plugins:disable
+    plugins:uninstall
+    plugins:renderer-url
+    plugins:invoke
+    plugins:settings:get
+    plugins:settings:set
+
+FILE: plugins/core/pluginMigrations.js
+  REQUIRES:
+    fs
+    path
+    better-sqlite3
+
+FILE: plugins/core/pluginProtocol.js
+  REQUIRES:
+    fs
+    path
+    electron
+    url
+
+FILE: project-scanner.js
+  REQUIRES:
+    fs
+    path
+
+FILE: services/categoryService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/ingredientService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/priceHistoryService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/priceService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/printerService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/printRouteService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/printSettingsService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/productService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/recipeItemService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/recipeService.js
+  REQUIRES:
+    ../database/database
+
+FILE: services/unitService.js
+  REQUIRES:
+    ../database/database
+
+FILE: src/app/App.jsx
+  IMPORTS:
+    react
+    ../layout/MainLayout
+    ./pageRegistry
+    ../modules/theme/services/theme.service
+    ../modules/theme/themes/theme-zafaran.css
+    ../modules/theme/themes/theme-yaghoot.css
+    ../modules/theme/themes/theme-zomorod.css
+    ../modules/theme/themes/theme-aajmeshki.css
+  CAFE API:
+    cafeAPI
+    cash
+
+FILE: src/app/ModulePlaceholder.jsx
+  IMPORTS:
+    react
+    ./ModulePlaceholder.css
+
+FILE: src/app/pageRegistry - Copy.js
+  IMPORTS:
+    ../modules/dashboard/pages/DashboardPage
+    ../modules/reports/pages/ManagementReportPage
+    ../modules/reports/pages/GeneralLedgerPage
+    ../modules/reports/pages/SubsidiaryLedgerPage
+    ../modules/printers/pages/PrintersPage
+    ../modules/reports/pages/BalanceSheetPage
+    ../modules/accounting/pages/AccountingPage
+    ../modules/reports/pages/IncomeStatementPage
+    ../modules/expenses/pages/ExpensesPage
+    ../modules/products/pages/ProductsPage
+    ../modules/categories/pages/CategoriesPage
+    ../modules/cash/pages/CashPage
+    ../modules/bank/pages/BankPage
+    ../modules/inventory-transfer/pages/InventoryTransferPage
+    ../modules/warehouses/pages/WarehousesPage
+    ../modules/recipes/pages/RecipesPage
+    ../modules/recipe-instructions/pages/RecipeInstructionsPage
+    ../modules/invoice-management/pages/InvoiceManagementPage
+    ../modules/reports/pages/TrialBalancePage
+    ../modules/stocktake/pages/StocktakePage
+    ../modules/theme/pages/ThemePage
+    ../modules/suppliers/pages/SupplierSettlementsPage
+    ../modules/purchasing/pages/SupplierRefundPage
+    ../modules/suppliers/pages/SuppliersPage
+    ../modules/sales/pages/SalesPage
+    ../modules/sales/pages/SalesInvoicesPage
+    ../modules/inventory/pages/InventoryPage
+    ../modules/purchasing/pages/PurchasingPage
+    ../modules/sales/pages/customer-settlements/CustomerSettlementsPage
+    ../modules/purchasing/pages/PurchaseReturnPage
+    ../modules/sales/pages/sales-return/SalesReturnPage
+    ../modules/customers/pages/CustomersPage
+    ../modules/customers/pages/customer-club/CustomerClubPage
+    ../modules/backup/pages/BackupPage
+    ./ModulePlaceholder
+
+FILE: src/app/pageRegistry.js
+  IMPORTS:
+    ../modules/dashboard/pages/DashboardPage
+    ../modules/users/pages/UsersPage
+    ../modules/dashboard-builder
+    ../modules/reports/pages/ManagementReportPage
+    ../modules/reports/pages/GeneralLedgerPage
+    ../modules/reports/pages/SubsidiaryLedgerPage
+    ../modules/printers/pages/PrintersPage
+    ../modules/reports/pages/BalanceSheetPage
+    ../modules/accounting/pages/AccountingPage
+    ../modules/reports/pages/IncomeStatementPage
+    ../modules/expenses/pages/ExpensesPage
+    ../modules/products/pages/ProductsPage
+    ../modules/categories/pages/CategoriesPage
+    ../modules/cash/pages/CashPage
+    ../modules/bank/pages/BankPage
+    ../modules/inventory-transfer/pages/InventoryTransferPage
+    ../modules/warehouses/pages/WarehousesPage
+    ../modules/recipes/pages/RecipesPage
+    ../modules/recipe-instructions/pages/RecipeInstructionsPage
+    ../modules/invoice-management/pages/InvoiceManagementPage
+    ../modules/reports/pages/TrialBalancePage
+    ../modules/stocktake/pages/StocktakePage
+    ../modules/theme/pages/ThemePage
+    ../modules/suppliers/pages/SupplierSettlementsPage
+    ../modules/purchasing/pages/SupplierRefundPage
+    ../modules/suppliers/pages/SuppliersPage
+    ../modules/sales/pages/SalesPage
+    ../modules/sales/pages/SalesInvoicesPage
+    ../modules/inventory/pages/InventoryPage
+    ../modules/purchasing/pages/PurchasingPage
+    ../modules/sales/pages/customer-settlements/CustomerSettlementsPage
+    ../modules/purchasing/pages/PurchaseReturnPage
+    ../modules/sales/pages/sales-return/SalesReturnPage
+    ../modules/customers/pages/CustomersPage
+    ../modules/customers/pages/customer-club/CustomerClubPage
+    ../modules/backup/pages/BackupPage
+    ./ModulePlaceholder
+
+FILE: src/App - Copy (2).jsx
+  IMPORTS:
+    react
+    ./layout/MainLayout
+    ./modules/dashboard/Dashboard
+    ./modules/loyalty
+    ./modules/sales
+
+FILE: src/App - Copy.jsx
+  IMPORTS:
+    react
+    ./layout/MainLayout
+    ./modules/dashboard/Dashboard
+    ./modules/loyalty
+    ./modules/sales
+    ./modules/personnel
+    ./modules/sales/products
+    ./modules/sales/categories
+    ./modules/sales/invoices
+    ./modules/sales/customers
+    ./modules/sales/reports
+    ./modules/settings
+    ./modules/accounting
+    ./modules/inventory
+    ./modules/cash
+    ./theme/themes
+  CAFE API:
+    cafeAPI
+
+FILE: src/App.jsx
+  IMPORTS:
+    react
+    ./layout/MainLayout
+    ./modules/dashboard/Dashboard
+    ./modules/loyalty
+    ./modules/sales
+    ./modules/pos/NewSale
+    ./modules/personnel
+    ./modules/sales/products
+    ./modules/sales/categories
+    ./modules/sales/invoices
+    ./modules/sales/customers
+    ./modules/sales/reports
+    ./modules/settings
+    ./modules/accounting
+    ./modules/inventory
+    ./modules/cash
+    ./theme/themes
+  CAFE API:
+    cafeAPI
+
+FILE: src/layout/MainLayout - Copy (2).jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    openLoyaltyWindow
+    openSalesWindow
+
+FILE: src/layout/MainLayout - Copy.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/layout/MainLayout.jsx
+  IMPORTS:
+    react
+    ../app/menuConfig
+    ../assets/emojis/app-emojis
+    ./MainLayout.css
+
+FILE: src/main - Copy.jsx
+  IMPORTS:
+    react
+    react-dom/client
+    ./App
+    ./theme/ThemeProvider
+
+FILE: src/main.jsx
+  IMPORTS:
+    react
+    react-dom/client
+    ./app/App
+
+FILE: src/modules/accounting/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    getChartOfAccounts
+    getJournalEntries
+    getTrialBalance
+    getProfitLoss
+    saveChartAccount
+
+FILE: src/modules/accounting/pages/AccountingPage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./AccountingPage.css
+  CAFE API:
+    cafeAPI
+    accounting
+
+FILE: src/modules/backup/pages/BackupPage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./BackupPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/bank/hooks/useBank.js
+  IMPORTS:
+    react
+    ../services/bank.service
+
+FILE: src/modules/bank/pages/BankPage.jsx
+  IMPORTS:
+    react
+    ../hooks/useBank
+    ../services/bank.service
+    ./BankPage.css
+
+FILE: src/modules/bank/services/bank.service.js
+  CAFE API:
+    cafeAPI
+    bank
+
+FILE: src/modules/cash/hooks/useCash.js
+  IMPORTS:
+    react
+    ../services/cash.service
+
+FILE: src/modules/cash/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    getCashRegisters
+    getCashSummary
+    saveCashRegister
+    addCashTransaction
+
+FILE: src/modules/cash/pages/CashPage - Copy.jsx
+  IMPORTS:
+    react
+    ../hooks/useCash
+    ../services/cash.service
+    ./CashPage.css
+
+FILE: src/modules/cash/pages/CashPage.jsx
+  IMPORTS:
+    react
+    ../hooks/useCash
+    ../services/cash.service
+    ../../../assets/emojis/app-emojis
+    ./CashPage.css
+
+FILE: src/modules/cash/services/cash.service.js
+  CAFE API:
+    cafeAPI
+    cash
+
+FILE: src/modules/categories/pages/CategoriesPage - Copy.jsx
+  IMPORTS:
+    react
+    ./CategoriesPage.css
+  CAFE API:
+    cafeAPI
+    categories
+
+FILE: src/modules/categories/pages/CategoriesPage.jsx
+  IMPORTS:
+    react
+    ./CategoriesPage.css
+  CAFE API:
+    cafeAPI
+    categories
+
+FILE: src/modules/customers/Customer.jsx
+  IMPORTS:
+    react
+    ../POS.css
+
+FILE: src/modules/customers/index.jsx
+  IMPORTS:
+    ./Customer
+
+FILE: src/modules/customers/pages/customer-club/CustomerClubLoyaltyManagement.jsx
+  IMPORTS:
+    react
+    ./CustomerClubLoyaltyManagement.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/customers/pages/customer-club/CustomerClubPage.jsx
+  IMPORTS:
+    react
+    ./CustomerLoyaltyPanel
+    ./CustomerClubLoyaltyManagement
+  CAFE API:
+    customers
+    cash
+    bank
+    cafeAPI
+    customerClub
+
+FILE: src/modules/customers/pages/customer-club/CustomerLoyaltyPanel.jsx
+  IMPORTS:
+    react
+    ./CustomerLoyaltyPanel.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/customers/pages/CustomersPage.jsx
+  IMPORTS:
+    react
+    ./CustomersPage.css
+  CAFE API:
+    customers
+
+FILE: src/modules/dashboard/Dashboard - Copy.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/dashboard/Dashboard.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/dashboard/pages/DashboardPage - Copy.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+  CAFE API:
+    cafeAPI
+    backup
+
+FILE: src/modules/dashboard/pages/DashboardPage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/dashboard-builder/components/DashboardBuilderCanvas.jsx
+  IMPORTS:
+    react
+
+FILE: src/modules/dashboard-builder/components/DashboardBuilderProperties.jsx
+  IMPORTS:
+    react
+    ../registry/dashboardBuilder.registry
+
+FILE: src/modules/dashboard-builder/components/DashboardBuilderToolbar.jsx
+  IMPORTS:
+    react
+
+FILE: src/modules/dashboard-builder/DashboardBuilder.jsx
+  IMPORTS:
+    react
+    ./components/DashboardBuilderCanvas
+    ./components/DashboardBuilderToolbar
+    ./components/DashboardBuilderProperties
+    ./registry/dashboardBuilder.registry
+    ./engine/dashboardBuilder.engine
+    ./services/dashboardBuilder.storage
+    ./styles/DashboardBuilder.css
+
+FILE: src/modules/dashboard-builder/engine/dashboardBuilder.engine.js
+  IMPORTS:
+    ../registry/dashboardBuilder.registry
+
+FILE: src/modules/dashboard-builder/index.jsx
+  IMPORTS:
+    ./DashboardBuilder
+
+FILE: src/modules/dashboard-builder/services/dashboardBuilder.storage.js
+  IMPORTS:
+    ../engine/dashboardBuilder.engine
+
+FILE: src/modules/expenses/hooks/useExpenses.js
+  IMPORTS:
+    react
+    ../services/expense.service
+
+FILE: src/modules/expenses/pages/ExpensesPage.jsx
+  IMPORTS:
+    react
+    ../hooks/useExpenses
+    ./ExpensesPage.css
+
+FILE: src/modules/expenses/services/expense.service - Copy.js
+  CAFE API:
+    cafeAPI
+    createExpense
+    getExpense
+
+FILE: src/modules/expenses/services/expense.service.js
+  CAFE API:
+    cafeAPI
+    expenses
+
+FILE: src/modules/index.jsx
+  IMPORTS:
+    ./pos
+    ./invoices
+    ./customers
+    ./products
+    ./categories
+    ./reports
+
+FILE: src/modules/inventory/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    getStockSummary
+    getInventoryMovements
+    getWarehouses
+    searchInventoryItems
+    addStockMovement
+    transferInventory
+    saveWarehouse
+
+FILE: src/modules/inventory/pages/InventoryPage.jsx
+  IMPORTS:
+    react
+    ./InventoryPage.css
+  CAFE API:
+    cafeAPI
+    inventory
+
+FILE: src/modules/inventory-transfer/pages/InventoryTransferPage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./InventoryTransferPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/invoice-management/pages/InvoiceManagementPage.jsx
+  IMPORTS:
+    react
+    ../../sales/components/SalesInvoiceEditDraft
+  CAFE API:
+    sales
+    purchasing
+
+FILE: src/modules/loyalty/index - Copy (2).jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/loyalty/index - Copy (3).jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/loyalty/index - Copy.jsx
+  IMPORTS:
+    react
+
+FILE: src/modules/loyalty/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/personnel/index - Copy.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/personnel/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/plugins/pages/PluginManagerPage.jsx
+  IMPORTS:
+    react
+    ./PluginManagerPage.css
+  CAFE API:
+    plugins
+
+FILE: src/modules/pos/index.jsx
+  IMPORTS:
+    ./POS
+
+FILE: src/modules/pos/NewSale - Copy.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    getSaleById
+    saveSale
+
+FILE: src/modules/pos/NewSale.jsx
+  IMPORTS:
+    react
+    ./NewSale.css
+  CAFE API:
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    getSaleById
+    saveSale
+
+FILE: src/modules/pos/POS - Copy (2).jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    getSystemPrinters
+    getCategories
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+
+FILE: src/modules/pos/POS - Copy (3).jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+
+FILE: src/modules/pos/POS - Copy.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+    getSaleById
+    updateSale
+    getSalesList
+    getSalesReport
+    getProductsSalesReport
+
+FILE: src/modules/pos/POS.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    getSystemPrinters
+    getCategories
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+
+FILE: src/modules/printers/hooks/usePrinting.js
+  IMPORTS:
+    react
+    ../services/printing.service
+
+FILE: src/modules/printers/pages/InvoiceTemplateDesigner.jsx
+  IMPORTS:
+    react
+    ./InvoiceTemplateDesigner.css
+
+FILE: src/modules/printers/pages/PrintersPage.jsx
+  IMPORTS:
+    react
+    ../hooks/usePrinting
+    ../services/printing.service
+    ./InvoiceTemplateDesigner
+    ./PrintersPage.css
+
+FILE: src/modules/printers/services/printing.service.js
+  CAFE API:
+    cafeAPI
+    printing
+
+FILE: src/modules/products/pages/ProductsPage.jsx
+  IMPORTS:
+    react
+    ./ProductsPage.css
+  CAFE API:
+    cafeAPI
+    products
+
+FILE: src/modules/purchasing/pages/PurchaseReturnPage.jsx
+  IMPORTS:
+    react
+    ./PurchaseReturnPage.css
+  CAFE API:
+    purchasing
+    cafeAPI
+
+FILE: src/modules/purchasing/pages/PurchasingPage.jsx
+  IMPORTS:
+    react
+    ./PurchasingPage.css
+  CAFE API:
+    purchasing
+    tax
+    cafeAPI
+
+FILE: src/modules/purchasing/pages/SupplierRefundPage.jsx
+  IMPORTS:
+    react
+    ./SupplierRefundPage.css
+  CAFE API:
+    purchasing
+    cafeAPI
+
+FILE: src/modules/recipe-instructions/pages/RecipeInstructionsPage - Copy (2).jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./RecipeInstructionsPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/recipe-instructions/pages/RecipeInstructionsPage - Copy.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./RecipeInstructionsPage.css
+  CAFE API:
+    cafeAPI
+    recipes
+
+FILE: src/modules/recipe-instructions/pages/RecipeInstructionsPage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./RecipeInstructionsPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/recipes/pages/RecipesPage - Copy (2).jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./RecipesPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/recipes/pages/RecipesPage - Copy.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./RecipesPage.css
+  CAFE API:
+    cafeAPI
+    recipes
+
+FILE: src/modules/recipes/pages/RecipesPage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./RecipesPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/reports/pages/BalanceSheetPage.jsx
+  IMPORTS:
+    react
+    ./BalanceSheetPage.css
+  CAFE API:
+    cafeAPI
+    reports
+
+FILE: src/modules/reports/pages/GeneralLedgerPage.jsx
+  IMPORTS:
+    react
+    ./GeneralLedgerPage.css
+  CAFE API:
+    cafeAPI
+    reports
+
+FILE: src/modules/reports/pages/IncomeStatementPage.jsx
+  IMPORTS:
+    react
+    ./IncomeStatementPage.css
+  CAFE API:
+    cafeAPI
+    reports
+
+FILE: src/modules/reports/pages/ManagementReportPage.jsx
+  IMPORTS:
+    react
+    ./ManagementReportPage.css
+  CAFE API:
+    cafeAPI
+    reports
+
+FILE: src/modules/reports/pages/SubsidiaryLedgerPage.jsx
+  IMPORTS:
+    react
+    ./SubsidiaryLedgerPage.css
+  CAFE API:
+    cafeAPI
+    reports
+
+FILE: src/modules/reports/pages/TrialBalancePage.jsx
+  IMPORTS:
+    react
+    ./TrialBalancePage.css
+  CAFE API:
+    cafeAPI
+    reports
+
+FILE: src/modules/reports/services/management-report.service.js
+  REQUIRES:
+    ../../../../database/core/connection
+
+FILE: src/modules/sales/categories/Category.jsx
+  IMPORTS:
+    react
+    ../POS.css
+
+FILE: src/modules/sales/categories/index.jsx
+  IMPORTS:
+    ./Category
+
+FILE: src/modules/sales/components/SalesInvoiceEditDraft.jsx
+  IMPORTS:
+    react
+    ./SalesInvoiceEditDraft.css
+  CAFE API:
+    sales
+    cafeAPI
+    expenses
+    tax
+
+FILE: src/modules/sales/customers/Customer.jsx
+  IMPORTS:
+    react
+    ../POS.css
+
+FILE: src/modules/sales/customers/index.jsx
+  IMPORTS:
+    ./Customer
+
+FILE: src/modules/sales/index - Copy (2).jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    saveSale
+
+FILE: src/modules/sales/index - Copy.jsx
+  IMPORTS:
+    react
+
+FILE: src/modules/sales/index.jsx
+  IMPORTS:
+    ./pos
+    ./invoices
+    ./customers
+    ./products
+    ./categories
+    ./reports
+
+FILE: src/modules/sales/invoices/index.jsx
+  IMPORTS:
+    ./Invoices
+
+FILE: src/modules/sales/invoices/Invoices - Copy.jsx
+  IMPORTS:
+    react
+    ../shared/utils
+
+FILE: src/modules/sales/invoices/Invoices.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    getSalesList
+    getSaleById
+    deleteSale
+    printSale
+    getSalesReport
+
+FILE: src/modules/sales/New folder/index.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    getSaleProducts
+    getSaleCustomers
+    getSalesList
+    saveSale
+    getSaleById
+    printSale
+    getSystemPrinters
+    getSalesReport
+    getProductsSalesReport
+
+FILE: src/modules/sales/pages/customer-settlements/CustomerSettlementsPage.jsx
+  IMPORTS:
+    react
+    ./CustomerSettlementsPage.css
+  CAFE API:
+    customers
+    expenses
+    sales
+    cafeAPI
+
+FILE: src/modules/sales/pages/sales-return/SalesReturnPage.jsx
+  IMPORTS:
+    react
+    ./SalesReturnPage.css
+  CAFE API:
+    expenses
+    sales
+    cafeAPI
+
+FILE: src/modules/sales/pages/SalesInvoicesPage.jsx
+  IMPORTS:
+    react
+    ../components/SalesInvoiceEditDraft
+    ../../printers/services/printing.service
+    ./SalesInvoicesPage.css
+  CAFE API:
+    sales
+
+FILE: src/modules/sales/pages/SalesPage.jsx
+  IMPORTS:
+    react
+    ./SalesPage.css
+  CAFE API:
+    cafeAPI
+    sales
+
+FILE: src/modules/sales/pos/index.jsx
+  IMPORTS:
+    ./POS
+
+FILE: src/modules/sales/pos/POS.jsx
+  IMPORTS:
+    react
+    ../shared/utils
+    ../invoices/Invoices
+    ../customers/Customer
+    ../products/Product
+    ../categories/Category
+    ../reports/Reports
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/sales/POS - Copy.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+    getSaleById
+    updateSale
+    deleteSale
+    getProductSalesDetails
+
+FILE: src/modules/sales/POS.before-invoice-edit.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+    getSaleById
+    updateSale
+    deleteSale
+    getProductSalesDetails
+
+FILE: src/modules/sales/POS.jsx
+  IMPORTS:
+    react
+    ./POS.css
+  CAFE API:
+    cafeAPI
+    getSalesReport
+    getProductsSalesReport
+    getSaleById
+    updateSale
+    deleteSale
+    getProductSalesDetails
+
+FILE: src/modules/sales/products/index.jsx
+  IMPORTS:
+    ./Product
+
+FILE: src/modules/sales/products/Product.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/sales/products/Products.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/sales/reports/index.jsx
+  IMPORTS:
+    ./Reports
+
+FILE: src/modules/sales/reports/Reports.jsx
+  IMPORTS:
+    react
+    ../shared/utils
+  CAFE API:
+    getSalesReport
+    getProductsSalesReport
+    getSaleById
+    updateSale
+    deleteSale
+    getProductSalesDetails
+
+FILE: src/modules/settings/index - Copy.jsx
+  IMPORTS:
+    react
+  CAFE API:
+    cafeAPI
+    saveAppSettings
+    savePrintSettings
+    saveCardTerminal
+    getCardTerminals
+    selectImageFile
+    deleteCardTerminal
+
+FILE: src/modules/settings/index.jsx
+  IMPORTS:
+    react
+    ../../theme/themes
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/stocktake/pages/StocktakePage.jsx
+  IMPORTS:
+    react
+    ../../../assets/emojis/app-emojis
+    ./StocktakePage.css
+  CAFE API:
+    cafeAPI
+    warehouses
+    stocktakes
+
+FILE: src/modules/suppliers/pages/SupplierSettlementsPage.jsx
+  IMPORTS:
+    react
+    ./SupplierSettlementsPage.css
+  CAFE API:
+    cafeAPI
+
+FILE: src/modules/suppliers/pages/SuppliersPage.jsx
+  IMPORTS:
+    react
+    ./SuppliersPage.css
+  CAFE API:
+    suppliers
+
+FILE: src/modules/theme/pages/ThemePage.jsx
+  IMPORTS:
+    react
+    ../services/theme.service
+    ./ThemePage.css
+
+FILE: src/modules/users/pages/UsersPage.jsx
+  IMPORTS:
+    react
+    ./UsersPage.css
+  CAFE API:
+    cafeAPI
+    users
+
+FILE: src/modules/warehouses/pages/WarehousesPage.jsx
+  IMPORTS:
+    react
+    ./WarehousesPage.css
+  CAFE API:
+    cafeAPI
+    warehouses
+
+FILE: src/theme/salesThemes.css
+  IMPORTS:
+    ./salesTheme-cafePro.css
+    ./salesTheme-coffeeEmber.css
+    ./salesTheme-midnight.css
+    ./salesTheme-mintGlass.css
+
+FILE: src/theme/ThemeProvider - Copy.jsx
+  IMPORTS:
+    react
+    ./themes
+
+FILE: src/theme/ThemeProvider.jsx
+  IMPORTS:
+    react
+    ./themes
+
+FILE: tools/install-plugin-system.js
+  IMPORTS:
+    react
+    ../modules/dashboard/pages/DashboardPage
+    ../modules/plugins/pages/PluginManagerPage
+  REQUIRES:
+    fs
+    path
+    better-sqlite3
+    crypto
+    ./pluginCore
+    ./pluginMigrations
+    electron
+    url
+    ../plugins/core/pluginManager
+    ../database/schema
+    ../plugins/core/pluginProtocol
+  CAFE API:
+    plugins
+  IPC:
+    plugins:list
+    plugins:get
+    plugins:choose-directory
+    plugins:install
+    plugins:enable
+    plugins:disable
+    plugins:uninstall
+    plugins:renderer-url
+    plugins:invoke
+    plugins:settings:get
+    plugins:settings:set
+
+FILE: tools/test-plugin-core.js
+  REQUIRES:
+    ../plugins/core/pluginCore
+
+FILE: vite.config.js
+  REQUIRES:
+    vite
+    @vitejs/plugin-react
+
+FILE: _backups/print-sales-template-indicator-20260825/PrintersPage.jsx
+  IMPORTS:
+    react
+    ../hooks/usePrinting
+    ../services/printing.service
+    ./InvoiceTemplateDesigner
+    ./PrintersPage.css
+
+FILE: _backups/print-sales-template-selector-20260825/PrintersPage.jsx
+  IMPORTS:
+    react
+    ../hooks/usePrinting
+    ../services/printing.service
+    ./InvoiceTemplateDesigner
+    ./PrintersPage.css
+
+FILE: _backups/sales-stock-negative-20260825/sales.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales.validation
+    ../repositories/sales.repository
+    ./unit-conversion.service
+    ./inventory.service
+    ./recipe-consumption.service
+    ./accounting.service
+
+FILE: _backups/sales-stock-negative-20260825-v2/sales.service.new.js
+  REQUIRES:
+    ../core/connection
+    ../validation/sales.validation
+    ../repositories/sales.repository
+    ./sales-calculation.service
+    ./sales-customer.service
+    ./sales-payment.service
+    ./sales-accounting.service
+    ./unit-conversion.service
+    ./inventory.service
+    ./recipe-consumption.service
+
+FILE: _backups/sales-stock-negative-20260825-v3/inventory.service.js
+  REQUIRES:
+    ../core/connection
+    ../validation/inventory.validation
+    ../repositories/inventory.repository
+
+FILE: _backups/sales-ui-20260825/SalesPage.jsx
+  IMPORTS:
+    react
+    ./SalesPage.css
+  CAFE API:
+    sales
+    expenses
+
+FILE: _backups/sales-ui-20260825-v2/SalesPage.jsx
+  IMPORTS:
+    react
+    ./SalesPage.css
+  CAFE API:
+    sales
+    expenses
+
+FILE: _backups/sales-ui-unified-20260825/SalesPage.jsx
+  IMPORTS:
+    react
+    ./SalesPage.css
+  CAFE API:
+    sales
+    expenses
